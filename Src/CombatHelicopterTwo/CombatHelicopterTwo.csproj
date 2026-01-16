@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B5C22725-AC6C-4D55-8330-1CD7C733C531}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CombatHelicopterTwo</RootNamespace>
+    <AssemblyName>CombatHelicopterTwo</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Analytics\FlurryEvents.cs" />
+    <Compile Include="Analytics\ParametersFactory.cs" />
+    <Compile Include="BaseScreens\Controls\BasicControl.cs" />
+    <Compile Include="BaseScreens\Controls\BooleanEventArgs.cs" />
+    <Compile Include="BaseScreens\Controls\Control.cs" />
+    <Compile Include="BaseScreens\Controls\ControlsManager.cs" />
+    <Compile Include="BaseScreens\Controls\CopterControl.cs" />
+    <Compile Include="BaseScreens\Controls\CopterFixedStepHorizontalScrollPanel.cs" />
+    <Compile Include="BaseScreens\Controls\DrawContext.cs" />
+    <Compile Include="BaseScreens\Controls\FireControl.cs" />
+    <Compile Include="BaseScreens\Controls\FixedStepHorizontalScrollPanel.cs" />
+    <Compile Include="BaseScreens\Controls\HighScorePanel.cs" />
+    <Compile Include="BaseScreens\Controls\ItemFixedStepHorizontalScrollPanel.cs" />
+    <Compile Include="BaseScreens\Controls\ItemTexturedControl.cs" />
+    <Compile Include="BaseScreens\Controls\LevelProgressControl.cs" />
+    <Compile Include="BaseScreens\Controls\LifeBarSprite.cs" />
+    <Compile Include="BaseScreens\Controls\MenuControl.cs" />
+    <Compile Include="BaseScreens\Controls\PageFlipControl.cs" />
+    <Compile Include="BaseScreens\Controls\PageFlipTracker.cs" />
+    <Compile Include="BaseScreens\Controls\PanelControl.cs" />
+    <Compile Include="BaseScreens\Controls\RadioButton.cs" />
+    <Compile Include="BaseScreens\Controls\ScrollingPanelControl.cs" />
+    <Compile Include="BaseScreens\Controls\ScrollTracker.cs" />
+    <Compile Include="BaseScreens\Controls\SliderControl.cs" />
+    <Compile Include="BaseScreens\Controls\SpecialSlotTwoStateMenuControl.cs" />
+    <Compile Include="BaseScreens\Controls\TextControl.cs" />
+    <Compile Include="BaseScreens\Controls\TexturedControl.cs" />
+    <Compile Include="BaseScreens\Controls\TwoStateControl.cs" />
+    <Compile Include="BaseScreens\GameScreen.cs" />
+    <Compile Include="BaseScreens\InputState.cs" />
+    <Compile Include="BaseScreens\ScreenManager.cs" />
+    <Compile Include="BaseScreens\ScreenState.cs" />
+    <Compile Include="BaseScreens\VerticalScrollingPanel.cs" />
+    <Compile Include="GamePlay\FireControlFactory.cs" />
+    <Compile Include="GamePlay\GameMode.cs" />
+    <Compile Include="GamePlay\GameplayPopups\BasePopup.cs" />
+    <Compile Include="GamePlay\GameplayPopups\ChallengeGameOverPopup.cs" />
+    <Compile Include="GamePlay\GameplayPopups\NewAchievementPopup.cs" />
+    <Compile Include="GamePlay\GameplayPopups\NewAmunitionPopup.cs" />
+    <Compile Include="GamePlay\GameplayPopups\NewCopterPopup.cs" />
+    <Compile Include="GamePlay\GameplayPopups\PausePopup.cs" />
+    <Compile Include="GamePlay\GameplayPopups\StoryEpicWin.cs" />
+    <Compile Include="GamePlay\GameplayPopups\StoryLose.cs" />
+    <Compile Include="GamePlay\GameplayPopups\StoryWin.cs" />
+    <Compile Include="GamePlay\GameplayScreen.cs" />
+    <Compile Include="GamePlay\InterfaceTopPanel.cs" />
+    <Compile Include="GamePlay\LandingLabel.cs" />
+    <Compile Include="GamePlay\Level.cs" />
+    <Compile Include="GamePlay\LevelsFactory.cs" />
+    <Compile Include="GamePlay\LevelState.cs" />
+    <Compile Include="Gamer.cs" />
+    <Compile Include="HelicopterGame.cs" />
+    <Compile Include="InAppEventArgs.cs" />
+    <Compile Include="Items\AchievementsSystem\Achievement.cs" />
+    <Compile Include="Items\AchievementsSystem\AchievementFactory.cs" />
+    <Compile Include="Items\AchievementsSystem\AchievementIDs.cs" />
+    <Compile Include="Items\AchievementsSystem\AchievementManager.cs" />
+    <Compile Include="Items\Ammunition\AmmunitionFactory.cs" />
+    <Compile Include="Items\Ammunition\AmmunitionItem.cs" />
+    <Compile Include="Items\Ammunition\AmunitionType.cs" />
+    <Compile Include="Items\Ammunition\HealthAmmunitionItem.cs" />
+    <Compile Include="Items\DeviceItems\BulletControlSystem.cs" />
+    <Compile Include="Items\DeviceItems\CriticalDamageSystemV1.cs" />
+    <Compile Include="Items\DeviceItems\CriticalDamageSystemV2.cs" />
+    <Compile Include="Items\DeviceItems\Damage50.cs" />
+    <Compile Include="Items\DeviceItems\DamageControlSystemV1.cs" />
+    <Compile Include="Items\DeviceItems\DamageControlSystemV2.cs" />
+    <Compile Include="Items\DeviceItems\DamageControlSystemV3.cs" />
+    <Compile Include="Items\DeviceItems\EnergyRegenerationSystemV1.cs" />
+    <Compile Include="Items\DeviceItems\EnergyRegenerationSystemV2.cs" />
+    <Compile Include="Items\DeviceItems\EnergyRegenerationSystemV3.cs" />
+    <Compile Include="Items\DeviceItems\EnergyRegenerationSystemV4.cs" />
+    <Compile Include="Items\DeviceItems\EnhanchedRechargeSystem.cs" />
+    <Compile Include="Items\DeviceItems\HarvestingSystem.cs" />
+    <Compile Include="Items\DeviceItems\HotPlasmaModule.cs" />
+    <Compile Include="Items\DeviceItems\IncreasedCapacitySystem.cs" />
+    <Compile Include="Items\DeviceItems\PDUSystemV1.cs" />
+    <Compile Include="Items\DeviceItems\PDUSystemV2.cs" />
+    <Compile Include="Items\DeviceItems\Shield25.cs" />
+    <Compile Include="Items\DeviceItems\Shield50.cs" />
+    <Compile Include="Items\DeviceItems\SystemCompensationCrush.cs" />
+    <Compile Include="Items\DeviceItems\TargetAssistentSystem.cs" />
+    <Compile Include="Items\DeviceItems\UpgradedWarhead.cs" />
+    <Compile Include="Items\DeviceItems\UpgradeItem.cs" />
+    <Compile Include="Items\HangarDesc\ButtonDesc.cs" />
+    <Compile Include="Items\HangarDesc\CopterLayoutDescription.cs" />
+    <Compile Include="Items\HangarDesc\HangarLayoutDescription.cs" />
+    <Compile Include="Items\HangarDesc\ItemLayoutDescription.cs" />
+    <Compile Include="Items\HangarDesc\SlotDescription`1.cs" />
+    <Compile Include="Items\HelicopterItem.cs" />
+    <Compile Include="Items\HelicopterType.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemCollection.cs" />
+    <Compile Include="Items\ItemIDs.cs" />
+    <Compile Include="Items\Rank.cs" />
+    <Compile Include="Items\Slot.cs" />
+    <Compile Include="Items\UnlockCondition.cs" />
+    <Compile Include="Items\UnlockConditionFactory.cs" />
+    <Compile Include="Items\UpgradeType.cs" />
+    <Compile Include="Items\WeaponItem.cs" />
+    <Compile Include="Items\WeaponRate.cs" />
+    <Compile Include="Playing\ChallengeGameSession.cs" />
+    <Compile Include="Playing\EncouragementManager.cs" />
+    <Compile Include="Playing\EpisodeHistory.cs" />
+    <Compile Include="Playing\GameProcess.cs" />
+    <Compile Include="Playing\GameSession.cs" />
+    <Compile Include="Playing\LocationHistory.cs" />
+    <Compile Include="Playing\StatisticsData.cs" />
+    <Compile Include="Playing\StoryGameSession.cs" />
+    <Compile Include="Playing\StoryModeHistory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="Scoreboard.cs" />
+    <Compile Include="Screen\Hangar\InAppPopup.cs" />
+    <Compile Include="Screen\HangerScreen.cs" />
+    <Compile Include="Screen\LeaderBoard\DummyReccordsProvider.cs" />
+    <Compile Include="Screen\LeaderBoard\LeaderboardRecord.cs" />
+    <Compile Include="Screen\LeaderBoard\LeaderboardRecordControl.cs" />
+    <Compile Include="Screen\LeaderBoard\LeaderBoardScreen.cs" />
+    <Compile Include="Screen\LeaderBoard\ProfileInfoPopup.cs" />
+    <Compile Include="Screen\LeaderBoard\RecordsList.cs" />
+    <Compile Include="Screen\LeaderBoard\UserNameEventArgs.cs" />
+    <Compile Include="Screen\LoadingScreen.cs" />
+    <Compile Include="Screen\MainMenu\GameButton.cs" />
+    <Compile Include="Screen\MainMenu\MainMenuScreen.cs" />
+    <Compile Include="Screen\MainMenu\MainMenuTutorialPopup.cs" />
+    <Compile Include="Screen\MainMenu\MoreGamePopup.cs" />
+    <Compile Include="Screen\MainMenu\MoreGamesSettings.cs" />
+    <Compile Include="Screen\MainMenu\PromoGame.cs" />
+    <Compile Include="Screen\MapScreen\Buttons\ButtonClickHandler.cs" />
+    <Compile Include="Screen\MapScreen\Buttons\DisableControl.cs" />
+    <Compile Include="Screen\MapScreen\Buttons\FlyingCloudControl.cs" />
+    <Compile Include="Screen\MapScreen\Buttons\InteractiveLevelButtonControl.cs" />
+    <Compile Include="Screen\MapScreen\ChoseLevelMapScreen.cs" />
+    <Compile Include="Screen\MapScreen\FourTexturePack.cs" />
+    <Compile Include="Screen\MapScreen\Tutorial_Popups\AnimDesc.cs" />
+    <Compile Include="Screen\MapScreen\Tutorial_Popups\BlessingControl.cs" />
+    <Compile Include="Screen\MapScreen\Tutorial_Popups\TutorialPopup.cs" />
+    <Compile Include="Screen\MapScreen\Tutorial_Popups\Vector2Animator.cs" />
+    <Compile Include="Screen\Navigator.cs" />
+    <Compile Include="Screen\Popups\ConfirmPurchasePopUp.cs" />
+    <Compile Include="Screen\Popups\DailyBonusPopup.cs" />
+    <Compile Include="Screen\Popups\ExitPopup.cs" />
+    <Compile Include="Screen\Popups\RateItPopup.cs" />
+    <Compile Include="Screen\Popups\TransactionCompletedPopUp.cs" />
+    <Compile Include="Screen\Popups\TransactionDeclinedPopUp.cs" />
+    <Compile Include="Screen\ScreenType.cs" />
+    <Compile Include="Screen\TrophyRoom\TrophyRoomScreen.cs" />
+    <Compile Include="SerializationIDs.cs" />
+    <Compile Include="SettingsGame.cs" />
+    <Compile Include="Statistics.cs" />
+    <Compile Include="Utils\NtpClient.cs" />
+    <Compile Include="Utils\SoundManagers\AudioManager.cs" />
+    <Compile Include="Utils\SoundManagers\BackgroundSounds.cs" />
+    <Compile Include="Utils\SoundManagers\HangarSounds.cs" />
+    <Compile Include="Utils\StringIds.cs" />
+    <Compile Include="Utils\Vibro.cs" />
+    <EmbeddedResource Include="Properties\CombatHelicopterTwo.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.14</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Microsoft\Xna\Framework.RuntimeProfile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helicopter.Model\Helicopter.Model.csproj">
+      <Project>{4c5f353f-483c-4a09-8b32-6c3b4e44ce39}</Project>
+      <Name>Helicopter.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
