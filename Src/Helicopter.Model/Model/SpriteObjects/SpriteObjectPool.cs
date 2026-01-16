@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: Helicopter.Model.SpriteObjects.SpriteObjectPool
 // Assembly: Helicopter.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: E40E7087-8854-4E4C-BE08-EC626C20D03F
@@ -313,7 +313,10 @@ namespace Helicopter.Model.SpriteObjects
 
     private SpriteObject GetCopterSpriteObject(Helicopter.Model.WorldObjects.Instances.Instance instance)
     {
-      CopterSpriteObject parent = !(instance is MothershipCopter) ? CopterSpriteObject.GetInstance() : (CopterSpriteObject) MothershipCopterSpriteObject.GetInstance();
+      CopterSpriteObject parent = !(instance is MothershipCopter) 
+                ? CopterSpriteObject.GetInstance() 
+                : (CopterSpriteObject) MothershipCopterSpriteObject.GetInstance();
+
       parent.DeathSprite = CommonAnimatedSprite.GetInstance();
       parent.DeathSprite.Init("Effects/Explosion3/Explosion3XML");
       switch (((Copter) instance).UnitType)

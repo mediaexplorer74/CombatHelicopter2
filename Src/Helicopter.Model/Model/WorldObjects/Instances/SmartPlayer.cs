@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: Helicopter.Model.WorldObjects.Instances.SmartPlayer
 // Assembly: Helicopter.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: E40E7087-8854-4E4C-BE08-EC626C20D03F
@@ -234,7 +234,12 @@ namespace Helicopter.Model.WorldObjects.Instances
       this.Speed.Y = shortRebound ? -this._shortReboundSpeed : -this._farReboundSpeed;
     }
 
-    public void StartShootWeapon(int weapon) => this.Weapons[weapon].IsShooting = true;
+    public void StartShootWeapon(int weapon)
+    {
+      //RnD : this.Weapons[1] is always null.. IS THIS BUG?
+      if (this.Weapons[weapon] != null)
+        this.Weapons[weapon].IsShooting = true;
+    }
 
     public void StartUp()
     {

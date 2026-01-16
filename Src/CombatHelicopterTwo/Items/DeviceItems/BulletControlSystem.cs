@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: Helicopter.Items.DeviceItems.BulletControlSystem
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -29,7 +29,8 @@ namespace Helicopter.Items.DeviceItems
 
     public override void Apply(SmartPlayer player)
     {
-      if (player.Weapons[0].Type != WeaponType.SingleMachineGun && player.Weapons[0].Type != WeaponType.DualMachineGun && player.Weapons[0].Type != WeaponType.Vulcan)
+      if (player.Weapons[0].Type != WeaponType.SingleMachineGun 
+                && player.Weapons[0].Type != WeaponType.DualMachineGun && player.Weapons[0].Type != WeaponType.Vulcan)
         return;
       player.Weapons[0].Damage *= (float) ((100.0 + (double) BulletControlSystem.Modifier) / 100.0);
     }

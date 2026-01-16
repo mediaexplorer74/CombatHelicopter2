@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: Helicopter.Screen.Popups.ConfirmPurchasePopUp
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33

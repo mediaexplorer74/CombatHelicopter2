@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: Helicopter.Model.SpriteObjects.WeaponSprites.BossRocketLauncherWeaponSpriteObject
 // Assembly: Helicopter.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: E40E7087-8854-4E4C-BE08-EC626C20D03F
@@ -17,9 +17,15 @@ namespace Helicopter.Model.SpriteObjects.WeaponSprites
     {
       this.Offset = weapon.BaseWeaponPosition;
       this.FireAnimation = CommonAnimatedSprite.GetInstance();
-      this.FireAnimation.Init("Effects/SmokeDown/SmokeDownXML");
-      this.TexturePath = "GameWorld/Objects/Weapon/weaponBoss2_2";
-      base.Init(parent, weapon);
+
+        //RnD
+        this.FireAnimation.Init("Effects/SmokeDown/SmokeDownXML");
+        this.TexturePath = "GameWorld/Objects/Weapon/weaponBoss2_2";
+        //this.FireAnimation.Init("Content/Effects/SmokeDown/SmokeDownXML");
+        //this.TexturePath = "Content/GameWorld/Objects/Weapon/weaponBoss2_2";
+
+
+        base.Init(parent, weapon);
     }
 
     internal override Vector2 FireAnimationPosition() => this.Size / 2f;

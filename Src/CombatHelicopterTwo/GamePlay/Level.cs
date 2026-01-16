@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: Helicopter.GamePlay.Level
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -18,7 +18,7 @@ using Helicopter.Model.WorldObjects.Providers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Globalization;
-using System.Threading;
+using System.Threading.Tasks;
 
 #nullable disable
 namespace Helicopter.GamePlay
@@ -437,10 +437,7 @@ namespace Helicopter.GamePlay
       this._episode = nextEpisode;
       ++this.EpisodeNumber;
       this.OnEpisodeChanged(EventArgs.Empty);
-      new Thread(new ThreadStart(this.LoadNextEpisode))
-      {
-        IsBackground = true
-      }.Start();
+      Task.Run(() => this.LoadNextEpisode());
       this._firstEpisodeInChallenge = false;
     }
 

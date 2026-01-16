@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Modified by MediaExplorer (2026)
 // Type: Helicopter.GamePlay.GameplayScreen
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -48,6 +48,9 @@ namespace Helicopter.GamePlay
     private Color _colorLoseFadeaway;
     private SpriteFont _font12;
     private Color _colorYellow;
+    private bool _keyUpPressed;
+    private bool _keyFire1Pressed;
+    private bool _keyFire2Pressed;
 
     public event EventHandler Landing;
 
@@ -141,9 +144,45 @@ namespace Helicopter.GamePlay
               flag = true;
           }
         }
+        if (input.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+          this.Level.Play();
       }
       if (!flag)
         return;
+      var ks = input.KeyboardState;
+      bool upNow = ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up) || ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W);
+      if (upNow && !_keyUpPressed)
+      {
+        this.OnUpliftingDown(this, System.EventArgs.Empty);
+        _keyUpPressed = true;
+      }
+      else if (!upNow && _keyUpPressed)
+      {
+        this.OnUpliftingUp(this, System.EventArgs.Empty);
+        _keyUpPressed = false;
+      }
+      bool fire1Now = ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space) || ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl);
+      if (fire1Now && !_keyFire1Pressed)
+      {
+        this.OnFireDown(this, System.EventArgs.Empty);
+        _keyFire1Pressed = true;
+      }
+      else if (!fire1Now && _keyFire1Pressed)
+      {
+        this.OnFireUp(this, System.EventArgs.Empty);
+        _keyFire1Pressed = false;
+      }
+      bool fire2Now = ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift) || ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightShift);
+      if (fire2Now && !_keyFire2Pressed)
+      {
+        this.OnFireDown2(this, System.EventArgs.Empty);
+        _keyFire2Pressed = true;
+      }
+      else if (!fire2Now && _keyFire2Pressed)
+      {
+        this.OnFireUp2(this, System.EventArgs.Empty);
+        _keyFire2Pressed = false;
+      }
       this._controlsManager.HandleInput(input);
     }
 
@@ -333,19 +372,25 @@ namespace Helicopter.GamePlay
       this._lifeLifeBar = new LifeBarSprite(new Rectangle(116, 422, 226, 38), sprite4, sprite3, sprite5);
       this._controlsManager.AddChild((BasicControl) this._lifeLifeBar);
       SmartPlayer player = this.Level.Player;
+      
       if (player.Weapons[0] != null)
       {
         Weapon weapon = player.Weapons[0];
-        FireControl buttonForWeapon = FireControlFactory.GetButtonForWeapon(weapon, new Vector2(640f, 320f), new Rectangle(640, 320, 160, 160));
+        FireControl buttonForWeapon = FireControlFactory.GetButtonForWeapon(
+            weapon, new Vector2(640f, 320f), new Rectangle(640, 320, 160, 160));
+
         buttonForWeapon.Down += new EventHandler<EventArgs>(this.OnFireDown);
         buttonForWeapon.Up += new EventHandler<EventArgs>(this.OnFireUp);
         this._controlsManager.AddChild((BasicControl) buttonForWeapon);
         this.ConfigureWeaponSounds(weapon);
       }
+
       if (player.Weapons[1] != null)
       {
         Weapon weapon = player.Weapons[1];
-        FireControl buttonForWeapon = FireControlFactory.GetButtonForWeapon(weapon, new Vector2(480f, 320f), new Rectangle(480, 320, 160, 160));
+        FireControl buttonForWeapon = FireControlFactory.GetButtonForWeapon(
+            weapon, new Vector2(480f, 320f), new Rectangle(480, 320, 160, 160));
+
         buttonForWeapon.Down += new EventHandler<EventArgs>(this.OnFireDown2);
         buttonForWeapon.Up += new EventHandler<EventArgs>(this.OnFireUp2);
         this._controlsManager.AddChild((BasicControl) buttonForWeapon);

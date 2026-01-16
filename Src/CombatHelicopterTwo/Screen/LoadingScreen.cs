@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: Helicopter.Screen.LoadingScreen
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -11,7 +11,7 @@ using Helicopter.Model.Common.Tween;
 using Helicopter.Model.SpriteObjects.Sprites;
 using Microsoft.Xna.Framework;
 using System;
-using System.Threading;
+using System.Threading.Tasks;
 
 #nullable disable
 namespace Helicopter.Screen
@@ -59,7 +59,7 @@ namespace Helicopter.Screen
       this._alphaTweener.Ended -= new EventHandler<EventArgs>(this.OnTweenerEnd);
       this._alphaTweener.Init(1f, 0.0f, 0.8f, new TweeningFunction(Linear.EaseIn));
       this._alphaTweener.Stop();
-      new Thread(new ThreadStart(this.OnLoad)).Start();
+      Task.Run(() => this.OnLoad());
     }
 
     private void OnLoad()

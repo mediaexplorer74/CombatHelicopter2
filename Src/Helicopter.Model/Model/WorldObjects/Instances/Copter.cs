@@ -1,4 +1,4 @@
-// Decompiled with JetBrains decompiler
+// Modified by MediaExplorer (2026)
 // Type: Helicopter.Model.WorldObjects.Instances.Copter
 // Assembly: Helicopter.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: E40E7087-8854-4E4C-BE08-EC626C20D03F
@@ -157,10 +157,15 @@ namespace Helicopter.Model.WorldObjects.Instances
 
     public override void Init(Pattern pattern)
     {
-      HelicopterPattern helicopterPattern = pattern is HelicopterPattern ? (HelicopterPattern) pattern : throw new Exception("Not correct pattern type");
+      HelicopterPattern helicopterPattern = pattern is HelicopterPattern 
+                ? (HelicopterPattern) pattern 
+                : throw new Exception("Not correct pattern type");
+
       base.Init((Pattern) helicopterPattern);
       this.Speed = this.GetInitialSpeed();
       this.Reaction = (Reaction) new CopterReaction((Instance) this);
+
+      //RnD
       this.Weapons = new List<Weapon>();
       foreach (WeaponSlotDescription weaponSlot in helicopterPattern.WeaponSlots)
       {
@@ -175,15 +180,25 @@ namespace Helicopter.Model.WorldObjects.Instances
       {
         if (this.Weapons.Count > 0 && this.Weapons[0] != null)
         {
-          this.Weapons[0].Rate = (double) helicopterPattern.FirstWeaponRate > 0.0 ? helicopterPattern.FirstWeaponRate : this.Weapons[0].Rate;
-          this.Weapons[0].ShootingTime = (double) helicopterPattern.FirstWeaponShootingTime > 0.0 ? helicopterPattern.FirstWeaponShootingTime : this.Weapons[0].ShootingTime;
-          this.Weapons[0].ReloadTime = (double) helicopterPattern.FirstWeaponReloadTime > 0.0 ? helicopterPattern.FirstWeaponReloadTime : this.Weapons[0].ReloadTime;
+          this.Weapons[0].Rate = (double) helicopterPattern.FirstWeaponRate > 0.0 
+                        ? helicopterPattern.FirstWeaponRate : this.Weapons[0].Rate;
+
+          this.Weapons[0].ShootingTime = (double) helicopterPattern.FirstWeaponShootingTime > 0.0 
+                        ? helicopterPattern.FirstWeaponShootingTime : this.Weapons[0].ShootingTime;
+
+          this.Weapons[0].ReloadTime = (double) helicopterPattern.FirstWeaponReloadTime > 0.0 
+                        ? helicopterPattern.FirstWeaponReloadTime : this.Weapons[0].ReloadTime;
         }
         if (this.Weapons.Count > 1 && this.Weapons[1] != null)
         {
-          this.Weapons[1].Rate = (double) helicopterPattern.SecondWeaponRate > 0.0 ? helicopterPattern.SecondWeaponRate : this.Weapons[1].Rate;
-          this.Weapons[1].ShootingTime = (double) helicopterPattern.SecondWeaponShootingTime > 0.0 ? helicopterPattern.SecondWeaponShootingTime : this.Weapons[1].ShootingTime;
-          this.Weapons[1].ReloadTime = (double) helicopterPattern.SecondWeaponReloadTime > 0.0 ? helicopterPattern.SecondWeaponReloadTime : this.Weapons[1].ReloadTime;
+          this.Weapons[1].Rate = (double) helicopterPattern.SecondWeaponRate > 0.0 
+                        ? helicopterPattern.SecondWeaponRate : this.Weapons[1].Rate;
+
+          this.Weapons[1].ShootingTime = (double) helicopterPattern.SecondWeaponShootingTime > 0.0 
+                        ? helicopterPattern.SecondWeaponShootingTime : this.Weapons[1].ShootingTime;
+
+          this.Weapons[1].ReloadTime = (double) helicopterPattern.SecondWeaponReloadTime > 0.0 
+                        ? helicopterPattern.SecondWeaponReloadTime : this.Weapons[1].ReloadTime;
         }
       }
       this.PursuitAcceleration = 198f;
@@ -251,8 +266,10 @@ namespace Helicopter.Model.WorldObjects.Instances
       }
       if (!this._canShoot)
         return;
+
       foreach (Weapon weapon in this.Weapons)
         weapon.Update(elapsedSeconds);
+      
       if ((double) Math.Abs(this.Contour.Rectangle.Center.Y - this.GameWorld.Player.Contour.Rectangle.Center.Y) < (double) this.HitShotCorridor)
       {
         foreach (Weapon weapon in this.Weapons)
@@ -271,7 +288,8 @@ namespace Helicopter.Model.WorldObjects.Instances
         this.Rotation -= MathHelper.ToRadians((float) this._upRotationSpeed * elapsedSeconds);
       else
         this.Rotation += MathHelper.ToRadians((float) this._downRotationSpeed * elapsedSeconds);
-      this.Rotation = MathHelper.Clamp(this.Rotation, MathHelper.ToRadians((float) this._maxBackDegree), MathHelper.ToRadians((float) this._maxForwardDegree));
+      this.Rotation = MathHelper.Clamp(this.Rotation, MathHelper.ToRadians((float) this._maxBackDegree), 
+          MathHelper.ToRadians((float) this._maxForwardDegree));
     }
 
     protected override void OnStateChanged(object sender, StateChangeEventArgs<int> e)

@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+﻿// Modified by MediaExplorer (2026)
 // Type: HelicopterSL.AppServiceProvider
 // Assembly: HelicopterSL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 993C8FB4-A202-4C38-BABD-3FA3D695AAE3
