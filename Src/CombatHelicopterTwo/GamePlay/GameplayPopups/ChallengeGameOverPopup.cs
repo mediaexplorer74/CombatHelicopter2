@@ -18,7 +18,9 @@ namespace Helicopter.GamePlay.GameplayPopups
 {
   internal class ChallengeGameOverPopup : BasePopup
   {
-    private readonly Vector2Tweener _bigNumberPositionTweener = new Vector2Tweener(Vector2.Zero, Vector2.Zero, 0.0f, new TweeningFunction(Linear.EaseIn));
+    private readonly Vector2Tweener _bigNumberPositionTweener = new Vector2Tweener(
+        Vector2.Zero, Vector2.Zero, 0.0f, new TweeningFunction(Linear.EaseIn));
+
     private readonly Tweener _bigNumberTweener = new Tweener(0.0f, 0.0f, 0.0f, new TweeningFunction(Linear.EaseIn));
     private TextControl _messageControl;
     private int _money;
@@ -105,7 +107,9 @@ namespace Helicopter.GamePlay.GameplayPopups
         int.TryParse(settings.Values["HeightScores"]?.ToString(), out num);
       if (this._points > num)
         num = this._points;
-      TextControl child = new TextControl(string.Format("best: {0}\n total credits: {1}&", (object) num, (object) Gamer.Instance.Money.Count), ResourcesManager.Instance.GetResource<SpriteFont>("fonts/coalition12"), this.color * 0.4f);
+      TextControl child = new TextControl(string.Format(
+          "best: {0}\n total credits: {1}&", (object) num, (object) Gamer.Instance.Money.Count), 
+          ResourcesManager.Instance.GetResource<SpriteFont>("fonts/coalition12"), this.color * 0.4f);
       child.Origin = new Vector2(0.5f, 0.5f);
       child.Position = new Vector2(400f, 310f);
       this._root.AddChild((BasicControl) child);

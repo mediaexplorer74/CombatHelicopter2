@@ -102,7 +102,10 @@ namespace Helicopter
       Gamer.Instance.Save();
     }
 
-    public void AddMoneyForGamer(float count) => Gamer.Instance.Money.AddMoney(count);
+    public void AddMoneyForGamer(float count)
+    {
+        Gamer.Instance.Money.AddMoney(count);
+    }
 
     public void ShowTransitionComplitedPopup()
     {

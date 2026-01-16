@@ -17,6 +17,7 @@ using Helicopter.Model.WorldObjects.Modifiers;
 using Helicopter.Model.WorldObjects.Providers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -412,13 +413,34 @@ namespace Helicopter.GamePlay
 
     public void ReleaseAll()
     {
-      this._episode.ActiveInstances.ForEach((Action<Instance>) (x => this._drawer.Remove(x)));
-      foreach (SpriteObject spriteObject in this._drawer.SpriteObjects.Values)
-        spriteObject.Release();
-      this._drawer.SpriteObjects.Clear();
-      this._drawer.SpriteObjectsList.Clear();
-      this.RemoveEventHandlers(this._episode);
-      this._episode.Instances.ForEach((Action<Instance>) (x => x.Release()));
+        //RnD: Clean up level resources
+        try
+        {
+            this._episode.ActiveInstances.ForEach(x => this._drawer.Remove(x));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("[ex] Level - ReleaseAll exception: " + ex.Message);
+        }
+
+        foreach (SpriteObject spriteObject in this._drawer.SpriteObjects.Values)
+          spriteObject.Release();
+
+        this._drawer.SpriteObjects.Clear();
+        this._drawer.SpriteObjectsList.Clear();
+        this.RemoveEventHandlers(this._episode);
+
+
+        //RnD: Clean up instances
+        try
+        {
+            this._episode.Instances.ForEach(x => x.Release());
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("[ex] Level - ReleaseAll exception: " + ex.Message);
+        }
+
     }
 
     private void SaveSessionSetting()

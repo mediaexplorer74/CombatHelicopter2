@@ -33,20 +33,31 @@ namespace Helicopter.BaseScreens
       MouseState = Mouse.GetState();
       var rawTouches = TouchPanel.GetState();
       var adjusted = new List<TouchLocation>(rawTouches.Count + 1);
-      for (int i = 0; i < rawTouches.Count; i++)
+      bool touchesAreGameCoords = TouchPanel.DisplayWidth == InputTransform.GameWidth && TouchPanel.DisplayHeight == InputTransform.GameHeight;
+      if (touchesAreGameCoords)
       {
-        var t = rawTouches[i];
-        var wp = t.Position;
-        if (InputTransform.ViewportWidth > 0 && InputTransform.ViewportHeight > 0)
+        for (int i = 0; i < rawTouches.Count; i++)
         {
-          if (!InputTransform.IsInsideViewport(wp))
-            continue;
-          var gp = InputTransform.WindowToGame(wp);
-          adjusted.Add(new TouchLocation(t.Id, t.State, gp));
+          adjusted.Add(rawTouches[i]);
         }
-        else
+      }
+      else
+      {
+        for (int i = 0; i < rawTouches.Count; i++)
         {
-          adjusted.Add(t);
+          var t = rawTouches[i];
+          var wp = t.Position;
+          if (InputTransform.ViewportWidth > 0 && InputTransform.ViewportHeight > 0)
+          {
+            if (!InputTransform.IsInsideViewport(wp))
+              continue;
+            var gp = InputTransform.WindowToGame(wp);
+            adjusted.Add(new TouchLocation(t.Id, t.State, gp));
+          }
+          else
+          {
+            adjusted.Add(t);
+          }
         }
       }
       var mp = new Vector2(MouseState.X, MouseState.Y);

@@ -134,8 +134,8 @@ namespace HelocopterSL
             InputTransform.ViewportHeight = vpHeight;
             InputTransform.GameWidth = Game1.gameWidth;
             InputTransform.GameHeight = Game1.gameHeight;
-            TouchPanel.DisplayWidth = Game1.gameWidth;
-            TouchPanel.DisplayHeight = Game1.gameHeight;
+            TouchPanel.DisplayWidth = this.GraphicsDevice.Viewport.Width;
+            TouchPanel.DisplayHeight = this.GraphicsDevice.Viewport.Height;
         }
     }
 }

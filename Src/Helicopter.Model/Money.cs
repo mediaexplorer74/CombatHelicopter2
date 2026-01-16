@@ -25,9 +25,18 @@ namespace Helicopter
       }
     }
 
-    public int Count => (int) this.CurrentMoney;
+    public int Count
+    {
+        get
+        {
+            return (int)this.CurrentMoney;
+        }
+    }
 
-    public void AddMoney(float count) => this.CurrentMoney += count;
+    public void AddMoney(float count)
+    {
+        this.CurrentMoney += count;
+    }
 
     public bool TryPaidMoney(float price)
     {
@@ -59,6 +68,9 @@ namespace Helicopter
       };
     }
 
-    public void SetDebugMoney(float money) => this._currentMoney = money;
+    public void SetDebugMoney(float money)
+    {
+        this._currentMoney = money;
+    }
   }
 }

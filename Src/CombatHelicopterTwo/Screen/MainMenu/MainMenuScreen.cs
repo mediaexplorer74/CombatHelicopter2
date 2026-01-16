@@ -103,7 +103,7 @@ namespace Helicopter.Screen.MainMenu
       Gamer.Instance.SecondWeapon.Item = ItemCollection.Instance.GetWeapon(WeaponType.CasseteRocket);
       Gamer.Instance.UpgradeA.Item = ItemCollection.Instance.GetUpgrade(UpgradeType.DamageControlSystemV2);
       Gamer.Instance.UpgradeB.Item = (UpgradeItem) null;
-      Gamer.Instance.Money.SetDebugMoney(3000f);
+      Gamer.Instance.Money.SetDebugMoney(1000000f);
       ItemCollection.Instance.GetHelicopter(HelicopterType.Viper).IsBought = true;
       ItemCollection.Instance.GetHelicopter(HelicopterType.Harbinger).IsBought = true;
       ItemCollection.Instance.GetHelicopter(HelicopterType.Avenger).IsBought = true;
@@ -180,8 +180,66 @@ namespace Helicopter.Screen.MainMenu
 
     private void OnMoreGamesClicked(object sender, EventArgs e)
     {
-      this.ScreenManager.AddScreen((GameScreen) this.moreGamePopup);
-      this.moreGamePopup.Open();
+        // Default behavior is disabled
+
+        //this.ScreenManager.AddScreen((GameScreen) this.moreGamePopup);
+        //this.moreGamePopup.Open();
+
+        // Magic action :)
+
+        Gamer.Instance.CurrentHelicopter.Item = ItemCollection.Instance.GetHelicopter(HelicopterType.Avenger);
+        Gamer.Instance.FirstWeapon.Item = ItemCollection.Instance.GetWeapon(WeaponType.PlasmaGun);
+        Gamer.Instance.SecondWeapon.Item = ItemCollection.Instance.GetWeapon(WeaponType.CasseteRocket);
+        Gamer.Instance.UpgradeA.Item = ItemCollection.Instance.GetUpgrade(UpgradeType.DamageControlSystemV2);
+        Gamer.Instance.UpgradeB.Item = (UpgradeItem)null;
+        Gamer.Instance.Money.SetDebugMoney(3000f);
+        ItemCollection.Instance.GetHelicopter(HelicopterType.Viper).IsBought = true;
+        ItemCollection.Instance.GetHelicopter(HelicopterType.Harbinger).IsBought = true;
+        ItemCollection.Instance.GetHelicopter(HelicopterType.Avenger).IsBought = true;
+        ItemCollection.Instance.GetHelicopter(HelicopterType.GrimReaper).IsBought = false;
+        ItemCollection.Instance.GetWeapon(WeaponType.SingleMachineGun).IsBought = true;
+        ItemCollection.Instance.GetWeapon(WeaponType.DualMachineGun).IsBought = true;
+        ItemCollection.Instance.GetWeapon(WeaponType.Vulcan).IsBought = false;
+        ItemCollection.Instance.GetWeapon(WeaponType.PlasmaGun).IsBought = true;
+        ItemCollection.Instance.GetWeapon(WeaponType.RocketLauncher).IsBought = true;
+        ItemCollection.Instance.GetWeapon(WeaponType.DualRocketLauncher).IsBought = false;
+        ItemCollection.Instance.GetWeapon(WeaponType.HomingRocket).IsBought = false;
+        ItemCollection.Instance.GetWeapon(WeaponType.CasseteRocket).IsBought = true;
+        ItemCollection.Instance.GetWeapon(WeaponType.Shield).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.DamageControlSystemV1).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.DamageControlSystemV2).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.DamageControlSystemV3).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.SystemCompensationCrush).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.BulletControlSystem).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.EnergyRegenerationSystemV1).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.EnergyRegenerationSystemV2).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.EnergyRegenerationSystemV3).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.EnergyRegenerationSystemV4).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.TargetAssistentSystem).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.EnhanchedRechargeSystem).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.IncreasedCapacitySystem).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.HotPlasmaModule).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.CriticalDamageSystemV1).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.CriticalDamageSystemV2).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.PDUSystemV1).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.PDUSystemV2).IsBought = false;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.UpgradedWarhead).IsBought = true;
+        ItemCollection.Instance.GetUpgrade(UpgradeType.HarvestingSystem).IsBought = false;
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Canyon, 1, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Canyon, 2, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Canyon, 3, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Jungle, 1, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Jungle, 2, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Jungle, 3, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Vulcan, 1, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Vulcan, 2, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Vulcan, 3, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Ice, 1, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Ice, 2, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.Ice, 3, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.EnemyBase, 1, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.EnemyBase, 2, 3);
+        GameProcess.Instance.StoryModeHistory.CompleteEpisode(WorldType.EnemyBase, 3, 3);
     }
 
     private void OnScoreboardButtonClick(object sender, EventArgs e)

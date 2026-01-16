@@ -133,6 +133,8 @@ namespace Helicopter
     {
       if (!this.FirstWeapon.IsInstalled)
         this.FirstWeapon.Item = ItemCollection.Instance.GetWeapon(WeaponType.SingleMachineGun);
+      if (!this.SecondWeapon.IsInstalled && this.CurrentHelicopter.Item.HasSecondWeapon)
+        this.SecondWeapon.Item = ItemCollection.Instance.GetWeapon(WeaponType.RocketLauncher);
       PlayerPattern pattern = this.CurrentHelicopter.Item.Pattern;
       pattern.Id = IdFactory.Instance.GetId();
       SmartPlayer smartPlayer = new SmartPlayer();

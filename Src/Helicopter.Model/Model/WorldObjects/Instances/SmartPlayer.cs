@@ -198,9 +198,14 @@ namespace Helicopter.Model.WorldObjects.Instances
       this.Weapons[slot].Fired += new EventHandler<WeaponEventArgs>(this.OnWeaponFired);
     }
 
-    public void EndShootWeapon(int weapon) => this.Weapons[weapon].IsShooting = false;
+        public void EndShootWeapon(int weapon)
+        {
+            // RnD : this.Weapons[1] is always null?? IS THIS BUG?
+            if (this.Weapons[weapon] != null)
+              this.Weapons[weapon].IsShooting = false;
+        }
 
-    public void Init(PlayerPattern pattern)
+        public void Init(PlayerPattern pattern)
     {
       this.Init((Pattern) pattern);
       this._startSpeed = pattern.StartSpeed;
