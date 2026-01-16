@@ -1,10 +1,9 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Analytics.ParametersFactory
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
 // Assembly location: C:\Users\Admin\Desktop\RE\Combat_Helicopter_2_v1.2.0.0\Combat Helicopter 2.dll
 
-using FlurryWP7SDK.Models;
 using Helicopter.Items;
 using Helicopter.Items.Ammunition;
 using Helicopter.Items.DeviceItems;
@@ -85,7 +84,7 @@ namespace Helicopter.Analytics
 
     public static Parameter GetReplayParam(bool replay)
     {
-      return new Parameter("Replay", replay.ToString((IFormatProvider) CultureInfo.InvariantCulture));
+      return new Parameter("Replay", replay.ToString());
     }
 
     private static string GetSlotValue<T>(SlotDescription<T> slotDescription) where T : Item

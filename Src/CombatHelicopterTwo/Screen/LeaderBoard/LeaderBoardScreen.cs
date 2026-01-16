@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Screen.LeaderBoard.LeaderBoardScreen
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -13,8 +13,6 @@ using Helicopter.Playing;
 using Helicopter.Screen.MainMenu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Scoreloop.CoreSocial.API;
-using Scoreloop.CoreSocial.API.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,8 +159,6 @@ namespace Helicopter.Screen.LeaderBoard
       };
       this._scoresList.TopExceeded += new EventHandler(this.OnTopExceeded);
       this._scoresList.BottomExceeded += new EventHandler(this.OnBottomExceeded);
-      Scoreboard.Instance.ScoresContoller.ScoresLoaded += new EventHandler<RequestControllerEventArgs<IScoresController>>(this.ScoresContoller_ScoresLoaded);
-      Scoreboard.Instance.ScoresContoller.RequestFailed += new EventHandler<RequestControllerEventArgs<IRequestController>>(this.ScoresContoller_RequestFailed);
       this._loadingControl = new TextControl("Loading".ToLower(), this._titleFont);
       this._loadingControl.Color = this._lineColor;
       this._loadingControl.Scale = 0.8f;
@@ -174,13 +170,12 @@ namespace Helicopter.Screen.LeaderBoard
       this._loadingErrorControl.Color = this._lineColor;
       this._loadingErrorControl.Scale = 0.8f;
       this._loadingErrorControl.Position = new Vector2(200f, 240f);
-      this.LoadUserRecords();
+      this.AddTestData();
     }
 
     public override void UnloadContent()
     {
       base.UnloadContent();
-      Scoreboard.Instance.ScoresContoller.ScoresLoaded -= new EventHandler<RequestControllerEventArgs<IScoresController>>(this.ScoresContoller_ScoresLoaded);
     }
 
     public override void Draw(DrawContext drawContext)
@@ -204,34 +199,24 @@ namespace Helicopter.Screen.LeaderBoard
 
     private void OnBottomExceeded(object sender, EventArgs e)
     {
-      if (Scoreboard.Instance.ScoresContoller.IsProcessing)
-        return;
       this._lastTopRecordNumber = this.GetTopVisibleRank();
       this._loadingMode = LeaderBoardScreen.LoadingMode.AdditionalLoadingBottom;
-      RecordsList currentList = this.GetCurrentList();
-      Scoreboard.Instance.ScoresContoller.LoadScores(Scoreboard.Instance.ScoresContoller.CreateScoreSearchList(ScoreSearchListTimeScope.Global), new Range(currentList.BottomNumber, 101), 0);
     }
 
     private void OnCurrentButtonClicked(object sender, EventArgs e)
     {
-      if (Scoreboard.Instance.ScoresContoller.IsProcessing)
-        return;
       this.HideLoading();
-      this.LoadUserRecords();
+      this.AddTestData();
     }
 
     private void OnDownButtomClicked(object sender, EventArgs e)
     {
-      if (Scoreboard.Instance.ScoresContoller.IsProcessing)
-        return;
       this.HideLoading();
       this.LoadBottomRecords();
     }
 
     private void OnNicknameChanged(object sender, UserNameEventArgs e)
     {
-      if (Scoreboard.Instance.UserController.User != null)
-        Scoreboard.Instance.UserController.Update(e.NewName, Scoreboard.Instance.UserController.User.Email);
       foreach (LeaderboardRecordControl child in this._scoresList.Children)
       {
         if (child.Record.IsMyself)
@@ -254,20 +239,12 @@ namespace Helicopter.Screen.LeaderBoard
 
     private void OnTopExceeded(object sender, EventArgs e)
     {
-      if (Scoreboard.Instance.ScoresContoller.IsProcessing)
-        return;
       this._lastTopRecordNumber = this.GetTopVisibleRank();
       this._loadingMode = LeaderBoardScreen.LoadingMode.AdditionalLoadingTop;
-      RecordsList currentList = this.GetCurrentList();
-      if (currentList.TopNumber <= 1)
-        return;
-      Scoreboard.Instance.ScoresContoller.LoadScores(Scoreboard.Instance.ScoresContoller.CreateScoreSearchList(ScoreSearchListTimeScope.Global), new Range(Math.Max(currentList.TopNumber - 101, 1), 101), 0);
     }
 
     private void OnUpClicked(object sender, EventArgs e)
     {
-      if (Scoreboard.Instance.ScoresContoller.IsProcessing)
-        return;
       this.HideLoading();
       this.LoadTopRecords();
     }
@@ -302,85 +279,35 @@ namespace Helicopter.Screen.LeaderBoard
     private void LoadBottomRecords()
     {
       this.ClearData();
-      this.ShowLoading();
       this._currentPart = LeaderBoardScreen.PartOfList.Bottom;
       this._loadingMode = LeaderBoardScreen.LoadingMode.ShowBottom;
-      Scoreboard.Instance.ScoresContoller.LoadScores(Scoreboard.Instance.ScoresContoller.CreateScoreSearchList(ScoreSearchListTimeScope.Global), Scoreboard.Instance.ScoreController.CreateScore(0.0, 0.0, 0), 100, Scoreboard.Instance.Game);
+      this._allRecords.AddRange(DummyReccordsProvider.GetDummyRecords(100, 75));
+      this.ShowLoadedData();
     }
 
     private void LoadTopRecords()
     {
       this.ClearData();
-      this.ShowLoading();
       this._currentPart = LeaderBoardScreen.PartOfList.Top;
       this._loadingMode = LeaderBoardScreen.LoadingMode.ShowTop;
-      Scoreboard.Instance.ScoresContoller.LoadScores(Scoreboard.Instance.ScoresContoller.CreateScoreSearchList(ScoreSearchListTimeScope.Global), new Range(0, 100), 0, Scoreboard.Instance.Game);
+      this._allRecords.AddRange(DummyReccordsProvider.GetDummyRecords(100, 0));
+      this.ShowLoadedData();
     }
 
     public void LoadUserRecords()
     {
       this.ClearData();
-      this.ShowLoading();
-      ScoreSearchList scoreSearchList = Scoreboard.Instance.ScoresContoller.CreateScoreSearchList(ScoreSearchListTimeScope.Global);
-      User user = Scoreboard.Instance.ScoresContoller.User;
       this._currentPart = LeaderBoardScreen.PartOfList.Center;
       this._loadingMode = LeaderBoardScreen.LoadingMode.ShowPlayer;
-      Scoreboard.Instance.ScoresContoller.LoadScores(scoreSearchList, user, 75, 0, Scoreboard.Instance.Game);
-    }
-
-    private LeaderboardRecord PrepareScore(Score score)
-    {
-      LeaderboardRecord leaderboardRecord = new LeaderboardRecord()
-      {
-        Id = score.User.ID,
-        Scores = (int) score.Result,
-        Number = (int) score.Rank,
-        Name = score.User.Login
-      };
-      if (score.User.OwnsCurrentSession)
-      {
-        leaderboardRecord.IsMyself = true;
-        Scoreboard.Instance.SetHighScores((int) score.Result);
-      }
-      int num = (int) (score.MinorResult + 0.1);
-      switch (num)
-      {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-          leaderboardRecord.Rank = (Rank) num;
-          break;
-        default:
-          leaderboardRecord.Rank = Rank.Pilot;
-          break;
-      }
-      return leaderboardRecord;
-    }
-
-    private void ScoresContoller_RequestFailed(
-      object sender,
-      RequestControllerEventArgs<IRequestController> e)
-    {
-      this._scoresList.Children.Clear();
-      this.ShowLoadingError();
-    }
-
-    private void ScoresContoller_ScoresLoaded(
-      object sender,
-      RequestControllerEventArgs<IScoresController> e)
-    {
-      IScoresController scoresContoller = Scoreboard.Instance.ScoresContoller;
-      if (this._root.Children.Contains((BasicControl) this._loadingControl))
-        this._root.Children.Remove((BasicControl) this._loadingControl);
-      if (scoresContoller.Scores == null || scoresContoller.Scores.Length == 0)
-        return;
-      this.ClearData();
-      this._allRecords.AddRange(((IEnumerable<Score>) scoresContoller.Scores).Select<Score, LeaderboardRecord>((Func<Score, LeaderboardRecord>) (score => this.PrepareScore(score))));
+      this._allRecords.AddRange(DummyReccordsProvider.GetDummyRecords(100, 25));
       this.ShowLoadedData();
     }
+
+    private LeaderboardRecord PrepareScore(LeaderboardRecord record) => record;
+
+    private void ScoresContoller_RequestFailed(object sender, EventArgs e) { }
+
+    private void ScoresContoller_ScoresLoaded(object sender, EventArgs e) { }
 
     private void ShowLoadedData()
     {

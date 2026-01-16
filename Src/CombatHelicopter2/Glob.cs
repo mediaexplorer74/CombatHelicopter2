@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 
 
-namespace GameManager
+namespace HelocopterSL
 {
 
     public static class Glob

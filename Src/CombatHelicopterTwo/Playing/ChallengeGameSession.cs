@@ -1,11 +1,9 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Playing.ChallengeGameSession
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
 // Assembly location: C:\Users\Admin\Desktop\RE\Combat_Helicopter_2_v1.2.0.0\Combat Helicopter 2.dll
 
-using FlurryWP7SDK;
-using FlurryWP7SDK.Models;
 using Helicopter.Analytics;
 using Helicopter.BaseScreens;
 using Helicopter.GamePlay;
@@ -17,7 +15,7 @@ using Helicopter.Utils.SoundManagers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO.IsolatedStorage;
+using Windows.Storage;
 
 #nullable disable
 namespace Helicopter.Playing
@@ -44,10 +42,9 @@ namespace Helicopter.Playing
     private void OnBuyNewCopter(object sender, EventArgs e)
     {
       this._coefficientOfHealth = 1f;
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      if (applicationSettings.Contains("PlayerHealth"))
-        applicationSettings.Remove("PlayerHealth");
-      applicationSettings.Save();
+      var settings = ApplicationData.Current.LocalSettings;
+      if (settings.Values.ContainsKey("PlayerHealth"))
+        settings.Values.Remove("PlayerHealth");
     }
 
     private void OnDistanceChanged(object sender, DistanceEventArgs e)
@@ -209,9 +206,8 @@ namespace Helicopter.Playing
       if ((double) this._coefficientOfHealth < 1.0)
       {
         screen.HealthPercent = this._coefficientOfHealth;
-        IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-        applicationSettings["PlayerHealth"] = (object) this._coefficientOfHealth.ToString((IFormatProvider) CultureInfo.InvariantCulture);
-        applicationSettings.Save();
+        var settings = ApplicationData.Current.LocalSettings;
+        settings.Values["PlayerHealth"] = this._coefficientOfHealth.ToString((IFormatProvider) CultureInfo.InvariantCulture);
       }
       this.ScreenManager.AddScreen((GameScreen) screen);
       screen.AddHelpButton();
@@ -261,8 +257,8 @@ namespace Helicopter.Playing
     {
       base.StartSession();
       this._lastFixedScores = 0L;
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      this._coefficientOfHealth = !applicationSettings.Contains("PlayerHealth") ? 1f : float.Parse(applicationSettings["PlayerHealth"].ToString(), (IFormatProvider) CultureInfo.InvariantCulture);
+      var settings = ApplicationData.Current.LocalSettings;
+      this._coefficientOfHealth = settings.Values.ContainsKey("PlayerHealth") ? float.Parse(settings.Values["PlayerHealth"].ToString(), (IFormatProvider) CultureInfo.InvariantCulture) : 1f;
       this.EpisodeMoney = 0.0f;
       this.ShowHangar();
       this.Load();
@@ -284,28 +280,26 @@ namespace Helicopter.Playing
 
     public void SaveChallengeProgress()
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      applicationSettings[SerializationIDs.ChallengeEpisodeNumber] = (object) this._episodeNumber.ToString((IFormatProvider) CultureInfo.InvariantCulture);
-      applicationSettings[SerializationIDs.ChallengeLastScores] = (object) this._lastFixedScores.ToString((IFormatProvider) CultureInfo.InvariantCulture);
-      applicationSettings["Money"] = (object) this.Money.ToString((IFormatProvider) CultureInfo.InvariantCulture);
-      applicationSettings.Save();
+      var settings = ApplicationData.Current.LocalSettings;
+      settings.Values[SerializationIDs.ChallengeEpisodeNumber] = this._episodeNumber.ToString((IFormatProvider) CultureInfo.InvariantCulture);
+      settings.Values[SerializationIDs.ChallengeLastScores] = this._lastFixedScores.ToString((IFormatProvider) CultureInfo.InvariantCulture);
+      settings.Values["Money"] = this.Money.ToString((IFormatProvider) CultureInfo.InvariantCulture);
     }
 
     public void Load()
     {
       try
       {
-        IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-        if (applicationSettings.Contains(SerializationIDs.ChallengeEpisodeNumber))
-          this._episodeNumber = int.Parse((string) applicationSettings[SerializationIDs.ChallengeEpisodeNumber], (IFormatProvider) CultureInfo.InvariantCulture);
-        if (applicationSettings.Contains(SerializationIDs.ChallengeLastScores))
+        var settings = ApplicationData.Current.LocalSettings;
+        if (settings.Values.ContainsKey(SerializationIDs.ChallengeEpisodeNumber))
+          this._episodeNumber = int.Parse(settings.Values[SerializationIDs.ChallengeEpisodeNumber].ToString(), (IFormatProvider) CultureInfo.InvariantCulture);
+        if (settings.Values.ContainsKey(SerializationIDs.ChallengeLastScores))
         {
-          this._lastFixedScores = long.Parse((string) applicationSettings[SerializationIDs.ChallengeLastScores], (IFormatProvider) CultureInfo.InvariantCulture);
+          this._lastFixedScores = long.Parse(settings.Values[SerializationIDs.ChallengeLastScores].ToString(), (IFormatProvider) CultureInfo.InvariantCulture);
           this.Score = (float) this._lastFixedScores;
         }
-        if (!applicationSettings.Contains("Money"))
-          return;
-        this.Money = float.Parse((string) applicationSettings["Money"], (IFormatProvider) CultureInfo.InvariantCulture);
+        if (settings.Values.ContainsKey("Money"))
+          this.Money = float.Parse(settings.Values["Money"].ToString(), (IFormatProvider) CultureInfo.InvariantCulture);
       }
       catch (Exception ex)
       {

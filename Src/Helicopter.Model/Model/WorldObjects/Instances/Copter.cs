@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Model.WorldObjects.Instances.Copter
 // Assembly: Helicopter.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: E40E7087-8854-4E4C-BE08-EC626C20D03F
@@ -217,8 +217,8 @@ namespace Helicopter.Model.WorldObjects.Instances
         default:
           throw new ArgumentOutOfRangeException();
       }
-      this.StateChanged -= new EventHandler<StateChangeEventArgs<int>>(((Instance) this).OnStateChanged);
-      this.StateChanged += new EventHandler<StateChangeEventArgs<int>>(((Instance) this).OnStateChanged);
+      this.StateChanged -= new EventHandler<StateChangeEventArgs<int>>(this.OnStateChanged);
+      this.StateChanged += new EventHandler<StateChangeEventArgs<int>>(this.OnStateChanged);
     }
 
     private void AddWeapon(Weapon weapon)

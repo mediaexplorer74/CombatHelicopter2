@@ -1,331 +1,146 @@
-﻿using GameManager;
 using Helicopter;
-using Helicopter.BaseScreens.Controls;
-using Helicopter.Model.WorldObjects.DeviceBonus;
-using Microsoft.Advertising.Mobile.UI;
-using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using MoVend;
-using NotificationScheduledAgent;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
-using System;
-using System.Collections.Generic;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Navigation;
-using System.Windows.Threading;
-using Windows.ApplicationModel.Contacts;
-using Windows.UI.Notifications;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
-#nullable disable
-namespace HelicopterSL
+namespace HelocopterSL
 {
-    public class Game1 //: PhoneApplicationPage, IMoVend
+    public sealed class Game1 : Game
     {
-        private readonly ContentManager _contentManager;
-        private readonly GameTimer _timer;
-        private HelicopterGame _helicopter;
-        private UIElementRenderer render;
-        private MoVendAPI _api;
-        private bool _inUps;
-        private DispatcherTimer _bgTimer = new DispatcherTimer();
-        private Stopwatch updateStopwatch;
-        private Stopwatch drawStopwatch;
-        internal Grid LayoutGrid;
-        internal Image HorisontalBG;
-        internal Image VerticalBG;
-        internal AdControl Banner;
-        private bool _contentLoaded;
+        HelicopterGame _helicopter;
+        SpriteBatch _spriteBatch;        
+        private GraphicsDeviceManager _graphics;        
+        public static readonly int minViewportWidth = 384;
+        public static readonly int minViewportHeight = 216;
+        public static int gameWidth;
+        public static int gameHeight;
+        public static Rectangle viewportRectangle;
+        private static RenderTarget2D nativeRenderTarget;
+        private static RenderTarget2D renderTarget_zoom1;
+        private static RenderTarget2D renderTarger_zoom0dot5;
+        public static double scaleX;
+        public static double scaleY;
+        public static MouseState currentMouseState;
+        public static MouseState previousMouseState;
+        public static TouchCollection currentTouchState;
+        public static TouchCollection previousTouchState;
+        public static KeyboardState previousKeyboardState;
+        public static KeyboardState currentKeyboardState;
+        public static GamePadState previousGamePadState;
+        public static GamePadState currentGamePadState;
+        
+        private bool gameInitialized;
 
-        private bool IsBannerVisible { get; set; }
+        public static Texture2D white;
+
 
         public Game1()
         {
-            this.InitializeComponent();
-            this._contentManager = ((App)Application.Current).Content;
-            this._timer = new GameTimer();
-            this._timer.UpdateInterval = TimeSpan.FromTicks(333333L);
-            this._timer.Update += new EventHandler<GameTimerEventArgs>(this.OnUpdate);
-            this._timer.Draw += new EventHandler<GameTimerEventArgs>(this.OnDraw);
-            this._bgTimer.Interval = new TimeSpan(0, 0, 4);
-            this._bgTimer.Tick += new EventHandler(this.OnBgTimerTick);
-            this.updateStopwatch = Stopwatch.StartNew();
-            this.drawStopwatch = Stopwatch.StartNew();
+            this._graphics = new GraphicsDeviceManager((Game)this);
+            this._graphics.GraphicsProfile = GraphicsProfile.Reach;
+            this.Content.RootDirectory = "Content";
         }
 
-        public void PurchaseSuccessCallback(
-          NavigationService source,
-          string productId,
-          string transactionId)
+        protected override void Initialize()
         {
-            this._helicopter.AddMoneyForGamer((float)new Dictionary<string, int>()
-      {
-        {
-          "1040654",
-          5000
-        },
-        {
-          "1040655",
-          12000
-        },
-        {
-          "1040656",
-          25000
-        },
-        {
-          "1040657",
-          45000
-        }
-      }[productId]);
-            this._api.ConsumeProduct(productId);
-            this.ContinueGame();
-            this._helicopter.ShowTransitionComplitedPopup();
-        }
+            this._graphics.IsFullScreen = false; // set it *true* for W10M 
+            this.IsMouseVisible = true;
 
-        public void PurchaseFailureCallback(
-          NavigationService source,
-          ResultType resultType,
-          string errorMessage,
-          string productId)
-        {
-            this.ContinueGame();
-            this._helicopter.ShowTransitionFailedPopup();
-        }
+            Game1.gameWidth = Game1.minViewportWidth;
+            Game1.gameHeight = Game1.minViewportHeight;
 
-        public void ContinueGame()
-        {
-            if (!this._inUps)
-                return;
-            ((UIElement)this.Banner).Visibility = (Visibility)0;
-            this._api.CloseMoVendScreen(new CancelEventArgs(false));
-            this._inUps = false;
-            this._bgTimer.Stop();
-            this.SupportedOrientations = (SupportedPageOrientation)2;
-            this.Orientation = (PageOrientation)2;
-            ((UIElement)this.HorisontalBG).Visibility = (Visibility)1;
-            ((UIElement)this.VerticalBG).Visibility = (Visibility)1;
-            GraphicsDeviceExtensions.SetSharingMode(SharedGraphicsDeviceManager.Current.GraphicsDevice, true);
-            this._timer.Start();
-        }
+            Game1.scaleX = (1f * GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / Game1.gameWidth);
+            Game1.scaleY = (1f * GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / Game1.gameHeight);
 
-        protected virtual void OnBackKeyPress(CancelEventArgs e)
-        {
-            if (this._inUps)
+            double scale = MathHelper.Min((float)Game1.scaleX, (float)Game1.scaleY);
+
+            // RnD: my very fast & stupid "scale problem solve/solving" =)
+            // Is your screen in portrait mode?
+            if (Math.Abs(Game1.scaleX - Game1.scaleY) > 2)
             {
-                e.Cancel = true;
+                // yea, "W10M" screen mode ;)
+                Game1.scaleX = scale;
+                Game1.scaleY = scale * 1.9f;
             }
             else
             {
-                if (this._helicopter.IsQuitCan)
-                    return;
-                e.Cancel = true;
-                this._helicopter.BackButtonPressed();
+                // no, "Desktop-PC/notebook" (Win11) screen mode ;)
+                Game1.scaleX = scale;
+                Game1.scaleY = scale * 0.9f;
+
+                this._graphics.IsFullScreen = false; // set it *false* for "big-screen" devices 
             }
+
+            Game1.renderTarget_zoom1 = new RenderTarget2D(this.GraphicsDevice, Game1.gameWidth, Game1.gameHeight);
+            Game1.renderTarger_zoom0dot5 = new RenderTarget2D(this.GraphicsDevice, Game1.gameWidth * 2, Game1.gameHeight * 2);
+
+            Game1.viewportRectangle = new Rectangle(
+                (int)(this.GraphicsDevice.DisplayMode.Width - Game1.gameWidth * Game1.scaleX) / 2,
+                (int)(this.GraphicsDevice.DisplayMode.Height - Game1.gameHeight * Game1.scaleY) / 2,
+                (int)(Game1.gameWidth * Game1.scaleX),
+                (int)(Game1.gameHeight * Game1.scaleY)
+                );
+
+            this._graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
+            this._graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+            this._graphics.ApplyChanges();
+
+            Game1.previousKeyboardState = Keyboard.GetState();
+            Game1.previousGamePadState = GamePad.GetState(PlayerIndex.One);
+
+            Game1.previousMouseState = Mouse.GetState();
+            Game1.previousTouchState = TouchPanel.GetState();
+            base.Initialize();
         }
 
-        private void OnDraw(object sender, GameTimerEventArgs e)
+        protected override void LoadContent()
         {
-            this.drawStopwatch.Reset();
-            this.drawStopwatch.Start();
-            SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Color.CornflowerBlue);
-            this._helicopter.Draw(new GameTime(e.TotalTime, e.ElapsedTime));
-            this.drawStopwatch.Stop();
-            long elapsedMilliseconds1 = this.drawStopwatch.ElapsedMilliseconds;
-            this.drawStopwatch.Reset();
-            this.drawStopwatch.Start();
-            if (this.render != null && this.IsBannerVisible)
-            {
-                this._helicopter.SpriteBatch.Begin();
-                this._helicopter.SpriteBatch.Draw(this.render.Texture, new Vector2(160f, 0.0f), Color.White);
-                this._helicopter.SpriteBatch.End();
-            }
-            this.drawStopwatch.Stop();
-            long elapsedMilliseconds2 = this.drawStopwatch.ElapsedMilliseconds;
+            this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
+
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _helicopter = new HelicopterGame();
+            _helicopter.OnActivated(this, EventArgs.Empty);
+            _helicopter.Init(GraphicsDevice, Content);
         }
 
-        protected virtual void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void UnloadContent()
         {
-            this._timer.Stop();
-            this._helicopter.OnDeactivated((object)this, (EventArgs)e);
-            GraphicsDeviceExtensions.SetSharingMode(SharedGraphicsDeviceManager.Current.GraphicsDevice, false);
-            ((Page)this).OnNavigatedFrom(e);
         }
 
-        protected virtual void OnNavigatedTo(NavigationEventArgs e)
+
+        protected override void Update(GameTime gameTime)
         {
-            if (e.Uri.OriginalString.Contains("?"))
-                this._helicopter.AddMoneyForGamer((float)new Dictionary<string, int>()
-        {
-          {
-            "1040654",
-            5000
-          },
-          {
-            "1040655",
-            12000
-          },
-          {
-            "1040656",
-            25000
-          },
-          {
-            "1040657",
-            45000
-          }
-        }[((Page)this).NavigationContext.QueryString["ID"]]);
-            ((Page)this).OnNavigatedTo(e);
-            ((UIElement)this.Banner).InvalidateArrange();
-            ((UIElement)this.Banner).InvalidateMeasure();
-            GraphicsDeviceExtensions.SetSharingMode(SharedGraphicsDeviceManager.Current.GraphicsDevice, true);
-            if (this._helicopter == null)
-            {
-                this._helicopter = new HelicopterGame();
-                this._helicopter.ShopNeeded += (EventHandler<InAppEventArgs>)((x, y) => this.BuyInApp(y.ProductID));
-                this._helicopter.OnActivated((object)this, (EventArgs)e);
-                this._helicopter.Quit += (EventHandler)((x, y) => ((Page)this).NavigationService.GoBack());
-                this._helicopter.BannerStateChanged += (EventHandler<BooleanEventArgs>)((x, y) =>
-                {
-                    this.IsBannerVisible = y.State;
-                    ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() => ((UIElement)this.Banner).Visibility = y.State ? (Visibility)0 : (Visibility)1));
-                });
-                this._helicopter.Init(SharedGraphicsDeviceManager.Current.GraphicsDevice, this._contentManager);
-                this.UpdateNotificationSettings();
-            }
-            this._timer.Start();
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
+                || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                this.Exit();
+
+            Game1.currentKeyboardState = Keyboard.GetState();
+            Game1.currentGamePadState = GamePad.GetState(PlayerIndex.One);
+            Game1.currentMouseState = Mouse.GetState();
+            Game1.currentTouchState = TouchPanel.GetState();
+
+            float totalSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            _helicopter.Update(gameTime);
+            base.Update(gameTime);
         }
 
-        private void UpdateNotificationSettings()
+        protected override void Draw(GameTime gameTime)
         {
-            NotificationSettings notificationSettings = NotificationSettings.Load();
-            if (Guide.IsVisible || notificationSettings.UserSelectAllowNotification)
-                return;
-            Guide.BeginShowMessageBox("Notifications", string.Format("Would you like to allow this app to display notifications? (if yes you'll earn {0} credits!)", (object)500), (IEnumerable<string>)new string[2]
-            {
-        "Yes",
-        "No"
-            }, 0, MessageBoxIcon.Alert, new AsyncCallback(this.OnNotificationAnswer), (object)null);
+            this._spriteBatch.Begin();
+
+            GraphicsDevice.Clear(Color.CornflowerBlue); //
+            
+            _helicopter.Draw(gameTime);
+
+            this._spriteBatch.End();
+      
+            base.Draw(gameTime);
         }
-
-        private void OnNotificationAnswer(IAsyncResult result)
-        {
-            NotificationSettings notificationSettings = NotificationSettings.Load();
-            int? nullable = Guide.EndShowMessageBox(result);
-            if (nullable.HasValue && nullable.Value == 0)
-            {
-                this._helicopter.AddMoneyForGamer(500f);
-                notificationSettings.AllowNotification = true;
-                notificationSettings.UserSelectAllowNotification = true;
-            }
-            else
-            {
-                notificationSettings.AllowNotification = false;
-                notificationSettings.UserSelectAllowNotification = true;
-            }
-            notificationSettings.Save();
-        }
-
-        private void OnUpdate(object sender, GameTimerEventArgs e)
-        {
-            this.updateStopwatch.Reset();
-            this.updateStopwatch.Start();
-            if (this.render != null && this.IsBannerVisible)
-                this.render.Render();
-            this.updateStopwatch.Stop();
-            long elapsedMilliseconds1 = this.updateStopwatch.ElapsedMilliseconds;
-            this.updateStopwatch.Reset();
-            this.updateStopwatch.Start();
-            this._helicopter.Update(new GameTime(e.TotalTime, e.ElapsedTime));
-            this.updateStopwatch.Stop();
-            long elapsedMilliseconds2 = this.updateStopwatch.ElapsedMilliseconds;
-        }
-
-        private void BuyInApp(string productID)
-        {
-            this._timer.Stop();
-            GraphicsDeviceExtensions.SetSharingMode(SharedGraphicsDeviceManager.Current.GraphicsDevice, false);
-            this.SupportedOrientations = (SupportedPageOrientation)3;
-            this._inUps = true;
-            this._bgTimer.Start();
-            ((UIElement)this.Banner).Visibility = (Visibility)1;
-            this._api.PurchaseProduct(productID);
-        }
-
-        private void OnBgTimerTick(object sender, EventArgs e)
-        {
-            this._bgTimer.Stop();
-            if (!this._inUps)
-                return;
-            this.UpdateBackground(this.Orientation);
-        }
-
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (this.render == null)
-            {
-                this.render = new UIElementRenderer((UIElement)this.Banner, 480, 80);
-                this.render.Render();
-            }
-            this._api = MoVendAPI.GetInstance((IMoVend)this, "oY7Lobr3tQBPo1aj", "1039241");
-        }
-
-        private void OnOrientationChanged(object sender, OrientationChangedEventArgs e)
-        {
-            this.UpdateBackground(e.Orientation);
-        }
-
-        private void UpdateBackground(PageOrientation orientation)
-        {
-            if (!this._inUps)
-            {
-                ((UIElement)this.HorisontalBG).Visibility = (Visibility)1;
-                ((UIElement)this.VerticalBG).Visibility = (Visibility)1;
-            }
-            else
-            {
-                PageOrientation pageOrientation = orientation;
-                if (pageOrientation <= 9)
-                {
-                    switch (pageOrientation - 1)
-                    {
-                        case 0:
-                        case 4:
-                            ((UIElement)this.HorisontalBG).Visibility = (Visibility)1;
-                            ((UIElement)this.VerticalBG).Visibility = (Visibility)0;
-                            return;
-                        case 1:
-                            break;
-                        case 2:
-                            return;
-                        case 3:
-                            return;
-                        default:
-                            if (pageOrientation != 9)
-                                return;
-                            goto case 0;
-                    }
-                }
-                else if (pageOrientation != 18 && pageOrientation != 34)
-                    return;
-                ((UIElement)this.HorisontalBG).Visibility = (Visibility)0;
-                ((UIElement)this.VerticalBG).Visibility = (Visibility)1;
-            }
-        }
-
-        private void Image_Tap(object sender, GestureEventArgs e) => this.ContinueGame();
-
-       
     }
 }

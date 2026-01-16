@@ -20,8 +20,6 @@ namespace HelicopterSL
         throw new ArgumentNullException(nameof (serviceType));
       if (service == null)
         throw new ArgumentNullException(nameof (service));
-      if (!serviceType.IsInstanceOfType(service))
-        throw new ArgumentException("service does not match the specified serviceType");
       this.services.Add(serviceType, service);
     }
 

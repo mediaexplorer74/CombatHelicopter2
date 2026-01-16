@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.SettingsGame
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -7,8 +7,8 @@
 using Helicopter.Model.Sounds;
 using System;
 using System.Globalization;
-using System.IO.IsolatedStorage;
 using System.Xml.Linq;
+using Windows.Storage;
 
 #nullable disable
 namespace Helicopter
@@ -66,31 +66,33 @@ namespace Helicopter
     {
       XElement xelement = new XElement((XName) "Settings");
       xelement.Add((object) new XElement((XName) "LaunchNumber", (object) SettingsGame.LaunchNumber.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-      xelement.Add((object) new XElement((XName) "IsRateIted", (object) SettingsGame.IsRateIted.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-      xelement.Add((object) new XElement((XName) "NeedMapTutorial", (object) SettingsGame.NeedMapTutorial.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-      xelement.Add((object) new XElement((XName) "NeedChallengeTutorial", (object) SettingsGame.NeedChallengeTutorial.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-      xelement.Add((object) new XElement((XName) "NeedAfter22Tutorial", (object) SettingsGame.NeedAfter22Tutorial.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-      xelement.Add((object) new XElement((XName) "IsRateIted", (object) SettingsGame.IsRateIted.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
+      xelement.Add((object) new XElement((XName) "IsRateIted", (object) SettingsGame.IsRateIted.ToString()));
+      xelement.Add((object) new XElement((XName) "NeedMapTutorial", (object) SettingsGame.NeedMapTutorial.ToString()));
+      xelement.Add((object) new XElement((XName) "NeedChallengeTutorial", (object) SettingsGame.NeedChallengeTutorial.ToString()));
+      xelement.Add((object) new XElement((XName) "NeedAfter22Tutorial", (object) SettingsGame.NeedAfter22Tutorial.ToString()));
+      xelement.Add((object) new XElement((XName) "IsRateIted", (object) SettingsGame.IsRateIted.ToString()));
       xelement.Add((object) new XElement((XName) "LastDailyBonusDate", (object) SettingsGame.LastDailyBonusDate.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
       xelement.Add((object) new XElement((XName) "LastDailyBonus", (object) SettingsGame.LastDailyBonus.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-      xelement.Add((object) new XElement((XName) "Sound", (object) SettingsGame.Sound.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-      xelement.Add((object) new XElement((XName) "Vibro", (object) SettingsGame.Vibro.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
+      xelement.Add((object) new XElement((XName) "Sound", (object) SettingsGame.Sound.ToString()));
+      xelement.Add((object) new XElement((XName) "Vibro", (object) SettingsGame.Vibro.ToString()));
       return xelement;
     }
 
     public static void Load()
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      if (!applicationSettings.Contains("Settings"))
+      var settings = ApplicationData.Current.LocalSettings;
+      if (!settings.Values.ContainsKey("Settings"))
         return;
-      SettingsGame.Deserialize((XElement) applicationSettings["Settings"]);
+      var xml = settings.Values["Settings"]?.ToString();
+      if (string.IsNullOrEmpty(xml))
+        return;
+      SettingsGame.Deserialize(XElement.Parse(xml));
     }
 
     public static void Save()
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      applicationSettings["Settings"] = (object) SettingsGame.Serialize();
-      applicationSettings.Save();
+      var settings = ApplicationData.Current.LocalSettings;
+      settings.Values["Settings"] = SettingsGame.Serialize().ToString();
     }
   }
 }

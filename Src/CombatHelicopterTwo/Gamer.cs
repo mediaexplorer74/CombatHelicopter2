@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Gamer
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -16,8 +16,8 @@ using Helicopter.Model.WorldObjects.Modifiers;
 using Helicopter.Model.WorldObjects.Patterns;
 using Helicopter.Utils;
 using System;
-using System.IO.IsolatedStorage;
 using System.Xml.Linq;
+using Windows.Storage;
 
 #nullable disable
 namespace Helicopter
@@ -284,17 +284,19 @@ namespace Helicopter
 
     public void Save()
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      applicationSettings["gamer"] = (object) this.Serialize();
-      applicationSettings.Save();
+      var settings = ApplicationData.Current.LocalSettings;
+      settings.Values["gamer"] = this.Serialize().ToString();
     }
 
     public void Load()
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      if (!applicationSettings.Contains("gamer"))
+      var settings = ApplicationData.Current.LocalSettings;
+      if (!settings.Values.ContainsKey("gamer"))
         return;
-      this.Deserialize((XElement) applicationSettings["gamer"]);
+      var xml = settings.Values["gamer"]?.ToString();
+      if (string.IsNullOrEmpty(xml))
+        return;
+      this.Deserialize(XElement.Parse(xml));
     }
   }
 }

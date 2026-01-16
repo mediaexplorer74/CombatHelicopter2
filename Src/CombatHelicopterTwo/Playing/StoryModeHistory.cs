@@ -7,7 +7,7 @@
 using Helicopter.Model.WorldObjects;
 using System;
 using System.Collections.Generic;
-using System.IO.IsolatedStorage;
+using Windows.Storage;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -102,17 +102,19 @@ namespace Helicopter.Playing
 
     private void Save()
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      applicationSettings[SerializationIDs.StoryModeHistory] = (object) this.Serialize();
-      applicationSettings.Save();
+      var settings = ApplicationData.Current.LocalSettings;
+      settings.Values[SerializationIDs.StoryModeHistory] = this.Serialize().ToString();
     }
 
     private void Load()
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
-      if (!applicationSettings.Contains(SerializationIDs.StoryModeHistory))
+      var settings = ApplicationData.Current.LocalSettings;
+      if (!settings.Values.ContainsKey(SerializationIDs.StoryModeHistory))
         return;
-      this.Deserialize((XElement) applicationSettings[SerializationIDs.StoryModeHistory]);
+      var xml = settings.Values[SerializationIDs.StoryModeHistory]?.ToString();
+      if (string.IsNullOrEmpty(xml))
+        return;
+      this.Deserialize(XElement.Parse(xml));
     }
   }
 }

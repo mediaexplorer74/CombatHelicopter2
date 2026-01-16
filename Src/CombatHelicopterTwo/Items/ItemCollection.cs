@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Items.ItemCollection
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -261,8 +261,6 @@ namespace Helicopter.Items
       PlayerPattern playerPattern8 = playerPattern7;
       playerPatternArray5[3] = playerPattern8;
       this.PlayerCopters = playerPatternArray1;
-      // ISSUE: explicit constructor call
-      base.\u002Ector();
       this._unlockFactory = new UnlockConditionFactory();
       this.WeaponItems = new List<WeaponItem>();
       this.DeviceItems = new List<UpgradeItem>();

@@ -1,4 +1,5 @@
-﻿/*using FlurryWP7SDK;
+﻿/*
+using FlurryWP7SDK;
 using Helicopter.Playing;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
@@ -190,7 +191,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
-namespace GameManager
+namespace HelocopterSL
 {
     sealed partial class App : Application
     {

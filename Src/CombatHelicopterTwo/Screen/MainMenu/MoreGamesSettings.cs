@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Screen.MainMenu.MoreGamesSettings
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -7,8 +7,8 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.IO.IsolatedStorage;
 using System.Xml.Linq;
+using Windows.Storage;
 
 #nullable disable
 namespace Helicopter.Screen.MainMenu
@@ -35,70 +35,53 @@ namespace Helicopter.Screen.MainMenu
 
     public static MoreGamesSettings Load()
     {
-      IsolatedStorageFile storeForApplication = IsolatedStorageFile.GetUserStoreForApplication();
-      MoreGamesSettings moreGamesSettings1 = new MoreGamesSettings();
-      if (!storeForApplication.FileExists("MoreGamesSettings.xml"))
-        return moreGamesSettings1;
-      IsolatedStorageFileStream storageFileStream = (IsolatedStorageFileStream) null;
-      StreamReader streamReader = (StreamReader) null;
+      MoreGamesSettings defaults = new MoreGamesSettings();
       try
       {
-        storageFileStream = storeForApplication.OpenFile("MoreGamesSettings.xml", FileMode.Open, FileAccess.Read);
-        streamReader = new StreamReader((Stream) storageFileStream);
-        MoreGamesSettings moreGamesSettings2 = new MoreGamesSettings();
-        XElement root = XDocument.Parse(streamReader.ReadToEnd()).Root;
+        StorageFile file = ApplicationData.Current.LocalFolder.GetFileAsync(Filename).AsTask().GetAwaiter().GetResult();
+        string content = FileIO.ReadTextAsync(file).AsTask().GetAwaiter().GetResult();
+        MoreGamesSettings result = new MoreGamesSettings();
+        XElement root = XDocument.Parse(content).Root;
         if (root != null)
         {
           XElement xelement1 = root.Element((XName) "AllowJevelGodBonus");
           if (xelement1 != null)
-            moreGamesSettings2.AllowJevelGodBonus = bool.Parse(xelement1.Value);
+            result.AllowJevelGodBonus = bool.Parse(xelement1.Value);
           XElement xelement2 = root.Element((XName) "AllowBubbleBurstBonus");
           if (xelement2 != null)
-            moreGamesSettings2.AllowBubbleBurstBonus = bool.Parse(xelement2.Value);
+            result.AllowBubbleBurstBonus = bool.Parse(xelement2.Value);
           XElement xelement3 = root.Element((XName) "AllowCombatHelicopterBonus");
           if (xelement3 != null)
-            moreGamesSettings2.AllowCombatHelicopterBonus = bool.Parse(xelement3.Value);
+            result.AllowCombatHelicopterBonus = bool.Parse(xelement3.Value);
           XElement xelement4 = root.Element((XName) "AllowJevelLinesBonus");
           if (xelement4 != null)
-            moreGamesSettings2.AllowJevelLinesBonus = bool.Parse(xelement4.Value);
+            result.AllowJevelLinesBonus = bool.Parse(xelement4.Value);
         }
-        return moreGamesSettings2;
+        return result;
       }
-      catch (Exception ex)
+      catch
       {
-        return moreGamesSettings1;
-      }
-      finally
-      {
-        streamReader?.Close();
-        storageFileStream?.Close();
+        return defaults;
       }
     }
 
     public void Save()
     {
-      IsolatedStorageFile storeForApplication = IsolatedStorageFile.GetUserStoreForApplication();
-      IsolatedStorageFileStream storageFileStream = (IsolatedStorageFileStream) null;
       try
       {
-        if (storeForApplication.FileExists("MoreGamesSettings.xml"))
-          storeForApplication.DeleteFile("MoreGamesSettings.xml");
-        storageFileStream = storeForApplication.OpenFile("MoreGamesSettings.xml", FileMode.Create, FileAccess.Write);
         XDocument xdocument = new XDocument();
         XElement content = new XElement((XName) "Root");
-        content.Add((object) new XElement((XName) "AllowJevelGodBonus", (object) this.AllowJevelGodBonus.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-        content.Add((object) new XElement((XName) "AllowBubbleBurstBonus", (object) this.AllowBubbleBurstBonus.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-        content.Add((object) new XElement((XName) "AllowCombatHelicopterBonus", (object) this.AllowCombatHelicopterBonus.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
-        content.Add((object) new XElement((XName) "AllowJevelLinesBonus", (object) this.AllowJevelLinesBonus.ToString((IFormatProvider) CultureInfo.InvariantCulture)));
+        content.Add((object) new XElement((XName) "AllowJevelGodBonus", (object) this.AllowJevelGodBonus.ToString()));
+        content.Add((object) new XElement((XName) "AllowBubbleBurstBonus", (object) this.AllowBubbleBurstBonus.ToString()));
+        content.Add((object) new XElement((XName) "AllowCombatHelicopterBonus", (object) this.AllowCombatHelicopterBonus.ToString()));
+        content.Add((object) new XElement((XName) "AllowJevelLinesBonus", (object) this.AllowJevelLinesBonus.ToString()));
         xdocument.Add((object) content);
-        xdocument.Save((Stream) storageFileStream);
+        string xml = xdocument.ToString();
+        StorageFile file = ApplicationData.Current.LocalFolder.CreateFileAsync(Filename, CreationCollisionOption.ReplaceExisting).AsTask().GetAwaiter().GetResult();
+        FileIO.WriteTextAsync(file, xml).AsTask().GetAwaiter().GetResult();
       }
-      catch (Exception ex)
+      catch
       {
-      }
-      finally
-      {
-        storageFileStream?.Close();
       }
     }
   }

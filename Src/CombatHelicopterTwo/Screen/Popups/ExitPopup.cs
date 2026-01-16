@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Screen.Popups.ExitPopup
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -7,7 +7,7 @@
 using Helicopter.BaseScreens;
 using Helicopter.BaseScreens.Controls;
 using Helicopter.Model.Common;
-using Microsoft.Phone.Tasks;
+using Windows.System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -86,7 +86,7 @@ namespace Helicopter.Screen.Popups
 
     private void OnRateItClicked(object sender, EventArgs e)
     {
-      new MarketplaceReviewTask().Show();
+      Launcher.LaunchUriAsync(new Uri("ms-windows-store://home"));
       this.Close();
       RateItPopup.GiftHealthPack();
     }

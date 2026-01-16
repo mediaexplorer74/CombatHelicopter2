@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Screen.LeaderBoard.ProfileInfoPopup
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -9,7 +9,7 @@ using Helicopter.BaseScreens.Controls;
 using Helicopter.Model.Common;
 using Helicopter.Model.SpriteObjects.Sprites;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
+using Windows.System;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -64,7 +64,7 @@ namespace Helicopter.Screen.LeaderBoard
 
     private void OnCangeNameClick(object sender, EventArgs e)
     {
-      Guide.BeginShowKeyboardInput(PlayerIndex.One, "Nickname", "Max 20 simbols name", this.Nickname, new AsyncCallback(this.OnCloseKeyboard), (object) null);
+      this._isNicknameChanged = false;
     }
 
     private void OnCloseKeyboard(IAsyncResult ar)
@@ -72,7 +72,7 @@ namespace Helicopter.Screen.LeaderBoard
       string nickname = this.Nickname;
       try
       {
-        string str = Guide.EndShowKeyboardInput(ar);
+        string str = nickname;
         if (str == null)
           return;
         this.Nickname = str;

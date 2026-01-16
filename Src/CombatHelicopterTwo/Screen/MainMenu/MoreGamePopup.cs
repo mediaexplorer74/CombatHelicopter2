@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Screen.MainMenu.MoreGamePopup
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -9,7 +9,7 @@ using Helicopter.BaseScreens.Controls;
 using Helicopter.Model.Common;
 using Helicopter.Model.Common.Tween;
 using Helicopter.Model.SpriteObjects.Sprites;
-using Microsoft.Phone.Tasks;
+using Windows.System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -139,11 +139,7 @@ namespace Helicopter.Screen.MainMenu
         Gamer.Instance.Money.AddMoney((float) gameButton.Bonus);
         moreGamesSettings.Save();
       }
-      new MarketplaceDetailTask()
-      {
-        ContentType = ((MarketplaceContentType) 1),
-        ContentIdentifier = str
-      }.Show();
+      Launcher.LaunchUriAsync(new Uri("ms-windows-store://pdp/?ProductId=" + str));
     }
 
     public override void OnBackButton() => this.Close();

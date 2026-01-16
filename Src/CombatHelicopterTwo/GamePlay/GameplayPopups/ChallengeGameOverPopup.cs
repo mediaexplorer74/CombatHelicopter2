@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.GamePlay.GameplayPopups.ChallengeGameOverPopup
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -11,7 +11,7 @@ using Helicopter.Model.Common.Tween;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO.IsolatedStorage;
+using Windows.Storage;
 
 #nullable disable
 namespace Helicopter.GamePlay.GameplayPopups
@@ -99,10 +99,10 @@ namespace Helicopter.GamePlay.GameplayPopups
 
     private void OnBigNumberEnd(object sender, EventArgs e)
     {
-      IsolatedStorageSettings applicationSettings = IsolatedStorageSettings.ApplicationSettings;
+      var settings = ApplicationData.Current.LocalSettings;
       int num = 0;
-      if (applicationSettings.Contains("HeightScores"))
-        num = int.Parse((string) applicationSettings["HeightScores"]);
+      if (settings.Values.ContainsKey("HeightScores"))
+        int.TryParse(settings.Values["HeightScores"]?.ToString(), out num);
       if (this._points > num)
         num = this._points;
       TextControl child = new TextControl(string.Format("best: {0}\n total credits: {1}&", (object) num, (object) Gamer.Instance.Money.Count), ResourcesManager.Instance.GetResource<SpriteFont>("fonts/coalition12"), this.color * 0.4f);

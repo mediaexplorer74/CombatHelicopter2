@@ -28,7 +28,7 @@ namespace Helicopter.Model.WorldObjects.Instances
     public LandingElementPattern Pattern
     {
       get => (LandingElementPattern) base.Pattern;
-      set => this.Pattern = (Helicopter.Model.WorldObjects.Patterns.Pattern) value;
+      set => base.Pattern = value;
     }
 
     public void Init(LandingElementPattern pattern)

@@ -345,7 +345,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
-namespace GameManager
+namespace HelocopterSL
 {
     public sealed partial class GamePage : Page
     {

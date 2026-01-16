@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Model.SpriteObjects.WeaponSprites.PlasmaGunWeaponSprite
 // Assembly: Helicopter.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: E40E7087-8854-4E4C-BE08-EC626C20D03F
@@ -33,7 +33,7 @@ namespace Helicopter.Model.SpriteObjects.WeaponSprites
       this.FireAnimation.Origin = new Vector2(19f, 26f);
       weapon.ShootingState += new EventHandler(this.OnStateChanged);
       base.Init(parent, weapon);
-      weapon.Fired -= new EventHandler<WeaponEventArgs>(((WeaponSpriteObject) this).OnWeaponFired);
+      weapon.Fired -= new EventHandler<WeaponEventArgs>(this.OnWeaponFired);
     }
 
     private void OnStateChanged(object sender, EventArgs e)

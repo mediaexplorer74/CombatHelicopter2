@@ -1,33 +1,8 @@
-﻿<!--phone:PhoneApplicationPage 
-    x:Class="HelicopterSL.GamePage"
+﻿<Page
+    x:Class="HelocopterSL.GamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:UI="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Landscape" Orientation="Landscape"
-    mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800"
-    shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded" 
-    OrientationChanged="OnOrientationChanged"
-    >
-    
-    <Grid x:Name="LayoutGrid" >
-        <Image Name="HorisontalBG" Source="Resources/tapToBackH.png" Width="800" Height="480" Tap="Image_Tap" Visibility="Collapsed"></Image>
-        <Image Name="VerticalBG" Source="Resources/tapToBackV.png" Width="480" Height="800" Tap="Image_Tap" Visibility="Collapsed"></Image>
-        <UI:AdControl Name="Banner" Width="480" Height="80" VerticalAlignment="Top" HorizontalAlignment="Center" ApplicationId="4b21cea5-b747-435d-88fc-78b43202a74c" AdUnitId="95595" Visibility="Visible" />
-    </Grid>
-</phone:PhoneApplicationPage-->
-
-<Page
-    x:Class="GameManager.GamePage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GameManager"
+    xmlns:local="using:HelocopterSL"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">

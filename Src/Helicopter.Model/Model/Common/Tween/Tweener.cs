@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Model.Common.Tween.Tweener
 // Assembly: Helicopter.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: E40E7087-8854-4E4C-BE08-EC626C20D03F
@@ -129,7 +129,7 @@ namespace Helicopter.Model.Common.Tween
 
     public override string ToString()
     {
-      return string.Format("{0}.{1}. Tween {2} -> {3} in {4}s. Elapsed {5:##0.##}s", (object) this.TweeningFunction.Method.DeclaringType.Name, (object) this.TweeningFunction.Method.Name, (object) this._from, (object) (float) ((double) this._from + (double) this.Change), (object) this.Duration, (object) this.Elapsed);
+      return string.Format("Tween {0} -> {1} in {2}s. Elapsed {3:##0.##}s", (object) this._from, (object) (float) ((double) this._from + (double) this.Change), (object) this.Duration, (object) this.Elapsed);
     }
 
     public void Init(float from, float to, float duration, TweeningFunction tweeningFunction)

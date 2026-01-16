@@ -16,7 +16,7 @@ using Helicopter.Playing;
 using Helicopter.Screen.MapScreen.Tutorial_Popups;
 using Helicopter.Screen.Popups;
 using Helicopter.Utils;
-using Microsoft.Phone.Tasks;
+using Windows.System;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -199,12 +199,7 @@ namespace Helicopter.Screen.MainMenu
 
     public static void OnFacebookButtonClick(object sender, EventArgs e)
     {
-      ((ShareTaskBase) new ShareLinkTask()
-      {
-        Title = "Combat Helicopter 2.0",
-        LinkUri = MainMenuScreen.CreateLink(),
-        Message = MainMenuScreen.CreateFacebookMessage()
-      }).Show();
+      Launcher.LaunchUriAsync(MainMenuScreen.CreateLink());
     }
 
     public static Guid ApplicationId()
@@ -219,15 +214,13 @@ namespace Helicopter.Screen.MainMenu
     private static string CreateFacebookMessage()
     {
       string format = "I've just reached {0} score in Combat Helicopter 2 - new, mindblowing action game! {1} {2}";
-      string str = "Soy";
-      if (Scoreboard.Instance.UserController.User != null)
-        str = Scoreboard.Instance.UserController.User.Login;
+      string str = "Player";
       return string.Format(format, (object) Scoreboard.Instance.GetHighScores(), (object) Gamer.Instance.Rank, (object) str);
     }
 
     private static Uri CreateLink()
     {
-      return new Uri(string.Format("http://windowsphone.com/s?appId={0}", (object) MainMenuScreen.ApplicationId().ToString()));
+      return new Uri("https://www.microsoft.com/store/apps");
     }
 
     private void RequestTime()

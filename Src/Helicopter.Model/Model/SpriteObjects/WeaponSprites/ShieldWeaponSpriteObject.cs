@@ -17,7 +17,7 @@ namespace Helicopter.Model.SpriteObjects.WeaponSprites
       this.Offset = weapon.BaseWeaponPosition;
       this.TexturePath = "GameWorld/Objects/Weapon/weaponS2_4";
       base.Init(parent, weapon);
-      this.Weapon.Fired -= new EventHandler<WeaponEventArgs>(((WeaponSpriteObject) this).OnWeaponFired);
+      this.Weapon.Fired -= new EventHandler<WeaponEventArgs>(this.OnWeaponFired);
       this.Weapon.ShootingState += new EventHandler(this.OnShootingState);
     }
 

@@ -1,12 +1,10 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: Helicopter.Utils.Vibro
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
 // Assembly location: C:\Users\Admin\Desktop\RE\Combat_Helicopter_2_v1.2.0.0\Combat Helicopter 2.dll
 
-using Microsoft.Devices;
 using System;
-using System.Windows.Threading;
 
 #nullable disable
 namespace Helicopter.Utils
@@ -17,17 +15,7 @@ namespace Helicopter.Utils
     {
       if (!SettingsGame.Vibro)
         return;
-      VibrateController.Default.Start(TimeSpan.FromMilliseconds(180.0));
-      DispatcherTimer dispatcherTimer = new DispatcherTimer()
-      {
-        Interval = new TimeSpan(0, 0, 0, 0, 280)
-      };
-      dispatcherTimer.Tick += (EventHandler) ((tsender, tevt) =>
-      {
-        (tsender as DispatcherTimer).Stop();
-        VibrateController.Default.Stop();
-      });
-      dispatcherTimer.Start();
+      return;
     }
   }
 }

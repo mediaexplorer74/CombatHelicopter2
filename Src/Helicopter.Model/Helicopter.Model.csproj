@@ -317,9 +317,6 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
-    <PackageReference Include="System.Runtime.Serialization.Formatters">
-      <Version>9.0.0-preview.6.24327.7</Version>
-    </PackageReference>
     <PackageReference Include="System.Threading.Thread">
       <Version>4.3.0</Version>
     </PackageReference>
