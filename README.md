@@ -31,10 +31,6 @@ _Windows 10 Mobile_ :
 ![](Images/sshot03.png)
 ![](Images/sshot04.png)
 
-## Tech. details
-- Min. Win. SDK = 10240 (hello, Astoria!)
-- Win. SDK = 19041
-- VS 2022 used as IDE
 
 ## Status
 - Draft. Only "first" AI-reconstruction & RnD done (some decomp. errors automatically fixed approx. 3 hours of Trae IDE use)
