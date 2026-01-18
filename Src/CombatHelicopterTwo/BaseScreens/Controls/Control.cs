@@ -1,4 +1,4 @@
-﻿// Modified by MediaExplorer (2026)
+// Modified by MediaExplorer (2026)
 // Type: Helicopter.BaseScreens.Controls.Control
 // Assembly: Combat Helicopter 2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 2424C8FD-D17D-4821-8CD9-AC9139939D33
@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 #nullable disable
 namespace Helicopter.BaseScreens.Controls
@@ -127,6 +128,7 @@ namespace Helicopter.BaseScreens.Controls
       if (!this.IsEnabled || !this.IsVisible)
         return;
       this.Touches.Add(touch.Id);
+      Debug.WriteLine($"Control.Down id={touch.Id} pos={touch.Position.X:0},{touch.Position.Y:0} area=({this.ContactArea.X},{this.ContactArea.Y},{this.ContactArea.Width},{this.ContactArea.Height})");
       this.RaiseDownEvent();
     }
 
@@ -134,6 +136,7 @@ namespace Helicopter.BaseScreens.Controls
     {
       this._timeWithoutTouch = 0.0f;
       this.Touches.Clear();
+      Debug.WriteLine("Control.Up");
       this.RaiseUpEvent();
     }
 

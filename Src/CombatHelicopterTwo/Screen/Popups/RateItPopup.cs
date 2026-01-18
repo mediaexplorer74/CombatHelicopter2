@@ -97,7 +97,7 @@ namespace Helicopter.Screen.Popups
     {
       Gamer.Instance.Money.AddMoney(2000f);
       RateItPopup.GiftHealthPack();
-      Launcher.LaunchUriAsync(new Uri("ms-windows-store://home"));
+      //Launcher.LaunchUriAsync(new Uri("ms-windows-store://home"));
       SettingsGame.IsRateIted = true;
       this.Close();
     }

@@ -103,7 +103,7 @@ namespace Helicopter.Screen.MainMenu
       Gamer.Instance.SecondWeapon.Item = ItemCollection.Instance.GetWeapon(WeaponType.CasseteRocket);
       Gamer.Instance.UpgradeA.Item = ItemCollection.Instance.GetUpgrade(UpgradeType.DamageControlSystemV2);
       Gamer.Instance.UpgradeB.Item = (UpgradeItem) null;
-      Gamer.Instance.Money.SetDebugMoney(1000000f);
+      Gamer.Instance.Money.SetDebugMoney(3000f);
       ItemCollection.Instance.GetHelicopter(HelicopterType.Viper).IsBought = true;
       ItemCollection.Instance.GetHelicopter(HelicopterType.Harbinger).IsBought = true;
       ItemCollection.Instance.GetHelicopter(HelicopterType.Avenger).IsBought = true;
@@ -192,7 +192,7 @@ namespace Helicopter.Screen.MainMenu
         Gamer.Instance.SecondWeapon.Item = ItemCollection.Instance.GetWeapon(WeaponType.CasseteRocket);
         Gamer.Instance.UpgradeA.Item = ItemCollection.Instance.GetUpgrade(UpgradeType.DamageControlSystemV2);
         Gamer.Instance.UpgradeB.Item = (UpgradeItem)null;
-        Gamer.Instance.Money.SetDebugMoney(3000f);
+        Gamer.Instance.Money.SetDebugMoney(1000000f);
         ItemCollection.Instance.GetHelicopter(HelicopterType.Viper).IsBought = true;
         ItemCollection.Instance.GetHelicopter(HelicopterType.Harbinger).IsBought = true;
         ItemCollection.Instance.GetHelicopter(HelicopterType.Avenger).IsBought = true;
@@ -257,7 +257,7 @@ namespace Helicopter.Screen.MainMenu
 
     public static void OnFacebookButtonClick(object sender, EventArgs e)
     {
-      Launcher.LaunchUriAsync(MainMenuScreen.CreateLink());
+      //Launcher.LaunchUriAsync(MainMenuScreen.CreateLink());
     }
 
     public static Guid ApplicationId()

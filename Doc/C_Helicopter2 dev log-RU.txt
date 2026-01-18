@@ -1,0 +1,79 @@
+Привет! Хочу портировать в UWP отреверсенный код wp7-игры Combat Helicopter 2 (движок - MonoGame). Касаемо UWP: Я использую Win. SDK 19041 и Min. Win. SDK 10240, чтобы обеспечить совместимость с ранней-сборкой 10240 ретро-ОС Windows 10 Mobile. Разберись, пожалуйста, с вопросом, почему управление через мышку пашет нормально, а вот через тачскрин нет.
+
+Сборку производи строго командой msbuild, а не dotnet build!
+
+MSBuild.exe "CombatHelicopter2.sln" /p:Configuration=Debug /p:Platform=x64 /t:Build
+
+( Если необходимо, при куче странных ошибок вроде System.String…, перед сборкой дополнительно выполни первоначальное восстановление пакетов командой
+
+MSBuild.exe "CombatHelicopter2.sln" /t:Restore )
+
+Лог моих попыток задействовать тач-управление в главном игровом меню:
+
+'CombatHelicopter2.exe' (CoreCLR: DefaultDomain): Loaded 'C:\Program Files\WindowsApps\Microsoft.NET.CoreRuntime.1.1_1.1.27004.0_x64__8wekyb3d8bbwe\System.Private.CoreLib.ni.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\entrypoint\CombatHelicopter2.exe'. Symbols loaded.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Runtime.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Program Files\WindowsApps\Microsoft.NET.CoreRuntime.1.1_1.1.27004.0_x64__8wekyb3d8bbwe\mscorlib.ni.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\WinMetadata\Windows.winmd'. Module was built without symbols.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Runtime.InteropServices.WindowsRuntime.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Threading.Tasks.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Runtime.WindowsRuntime.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Numerics.Vectors.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Runtime.WindowsRuntime.UI.Xaml.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Collections.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\MonoGame.Framework.dll'. Module was built without symbols.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Private.Uri.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Collections.Concurrent.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Runtime.Extensions.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.ComponentModel.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Threading.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Reflection.dll'. Module was built without symbols.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\SharpDX.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\SharpDX.XAudio2.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Runtime.InteropServices.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Reflection.Extensions.dll'. Module was built without symbols.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\SharpDX.DXGI.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\SharpDX.Direct3D11.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\SharpDX.Direct2D1.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\Helicopter.Model.dll'. Symbols loaded.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\CombatHelicopterTwo.dll'. Symbols loaded.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.IO.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Xml.XDocument.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Xml.ReaderWriter.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Text.RegularExpressions.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Globalization.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Linq.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Diagnostics.Debug.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Net.Primitives.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Net.Sockets.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Diagnostics.Tracing.dll'. Module was built without symbols.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Runtime.Handles.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\Microsoft.Win32.Primitives.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Net.NameResolution.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+'CombatHelicopter2.exe' (CoreCLR: CoreCLR_UWP_Domain): Loaded 'C:\Users\Admin\source\repos\!WindSurf\CombatHelicopter2\Src\CombatHelicopter2\bin\WindowsUniversal\x64\Debug\AppX\System.Threading.Overlapped.dll'. Skipped loading symbols. Module is optimized and the debugger option 'Just My Code' is enabled.
+The thread 4204 has exited with code 0 (0x0).
+The thread 6704 has exited with code 0 (0x0).
+The thread 11780 has exited with code 0 (0x0).
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+Gesture Tap pos=1034,983
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+Gesture Tap pos=968,984
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+Gesture DoubleTap pos=951,996
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480
+RawTouches count=1 disp=2048x1536 vp=(0,154,2048,1228) game=800x480

@@ -44,19 +44,24 @@ namespace HelocopterSL
 
         protected override void Initialize()
         {
-            this._graphics.IsFullScreen = true; //false; // set false for Dev deals, for, example, Desktop debug
+            this._graphics.IsFullScreen = true; // set false for desktop version
             this.IsMouseVisible = true;
 
             Game1.gameWidth = Game1.minViewportWidth;
             Game1.gameHeight = Game1.minViewportHeight;
 
             nativeRenderTarget = new RenderTarget2D(this.GraphicsDevice, Game1.gameWidth, Game1.gameHeight);
+            // Устанавливаем начальные размеры TouchPanel равными игровым размерам
             TouchPanel.DisplayWidth = Game1.gameWidth;
             TouchPanel.DisplayHeight = Game1.gameHeight;
-            UpdateViewport();
             this._graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             this._graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             this._graphics.ApplyChanges();
+            
+            // После ApplyChanges обновляем размеры TouchPanel и Viewport
+            TouchPanel.DisplayWidth = this.GraphicsDevice.Viewport.Width;
+            TouchPanel.DisplayHeight = this.GraphicsDevice.Viewport.Height;
+            UpdateViewport();
 
             Game1.previousKeyboardState = Keyboard.GetState();
             Game1.previousGamePadState = GamePad.GetState(PlayerIndex.One);
@@ -134,6 +139,8 @@ namespace HelocopterSL
             InputTransform.ViewportHeight = vpHeight;
             InputTransform.GameWidth = Game1.gameWidth;
             InputTransform.GameHeight = Game1.gameHeight;
+            // Устанавливаем размеры TouchPanel равными размеру окна для правильной работы InputState
+            // InputState будет преобразовывать координаты из оконных в игровые
             TouchPanel.DisplayWidth = this.GraphicsDevice.Viewport.Width;
             TouchPanel.DisplayHeight = this.GraphicsDevice.Viewport.Height;
         }
